@@ -1,0 +1,13 @@
+@import "../../util//variables";
+
+.button {
+    padding: 13px 50px;
+    outline: none;
+    border: none;
+    background: $button-color;
+    margin: 30px auto 20px;
+    border-radius: 6px;
+    font-size: 20px;
+    color: #FFFFFF;
+    cursor: pointer;
+}

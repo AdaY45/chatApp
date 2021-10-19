@@ -1,0 +1,26 @@
+@import "../../util//variables";
+
+.form-control {
+  text-align: center;
+  margin: 5px 0;
+
+  input {
+    width: 380px;
+    color: $input-color;
+    border: none;
+    font-family: "TT Norms", sans-serif;
+    outline: none;
+    margin-bottom: 46px;
+    padding: 5px 50px;
+    height: 50px;
+    background-color: #ffffff;
+    font-size: 18px;
+    box-shadow: 0px 10px 55px rgba(0, 0, 0, 0.05),
+      0px 4px 10px rgba(0, 0, 0, 0.25), 0px 10px 25px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+  }
+
+  .invalid {
+    background-color: #ff4b4b46;
+  }
+}

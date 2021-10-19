@@ -1,0 +1,48 @@
+@import "../util//variables";
+
+.auth {
+    text-align: center;
+    padding: 20px 400px;
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+
+  .auth-btn {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 70px;
+
+    .is-active {
+      position: relative;
+    }
+    .is-active:after {
+      position: absolute;
+      content: "";
+      height: 3px;
+      bottom: -7px;
+      margin: 0 auto;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: $main-text-color;
+      -o-transition: 0.5s;
+      -ms-transition: 0.5s;
+      -moz-transition: 0.5s;
+      -webkit-transition: 0.5s;
+      transition: 0.5s;
+    }
+
+    .is-active:hover:after {
+      width: 40%;
+      background: #4780c5;
+    }
+
+    div {
+        font-size: 36px;
+        color: $main-text-color;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@import "../../util//variables";
+
+.container {
+  display: flex;
+  width: 100%;
+  margin: 24px 0 ;
+  //justify-content: space-between;
+
+  .icon {
+    background: #fff;
+    padding: 21px 22px;
+    border-radius: 6px 0 0 6px;
+    * {
+      margin: auto;
+    }
+  }
+
+  .input {
+    border: none;
+    width: 100%;
+    border-right: 2px solid $background;
+    font-family: "TT Norms", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+  }
+
+  .messages {
+      padding: 20px;
+      margin: auto;
+      background: #FFF; 
+      border-radius: 0 6px 6px 0;
+  }
+}

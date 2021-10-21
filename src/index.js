@@ -6,12 +6,15 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { UserContextProvider } from "./context/user-context";
 import { UIContextProvider } from "./context/ui-context";
+import { ChatContextProvider } from "./context/chat-context";
 
 ReactDOM.render(
   <BrowserRouter>
     <UIContextProvider>
       <UserContextProvider>
-        <App />
+        <ChatContextProvider>
+          <App />
+        </ChatContextProvider>
       </UserContextProvider>
     </UIContextProvider>
   </BrowserRouter>,

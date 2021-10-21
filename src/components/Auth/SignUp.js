@@ -82,6 +82,12 @@ const SignUp = () => {
       user.setUserToken(response);
       user.setUserInfo({email, firstName, lastName, password});
       ui.setType("register");
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          token: response.token,
+        })
+      );
   
       history.push('/auth');
     } else if(response.message) {

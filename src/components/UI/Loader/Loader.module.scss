@@ -1,27 +1,35 @@
-// @-webkit-keyframes spin {
-//   0% {
-//     -webkit-transform: rotate(0deg);
-//   }
-//   100% {
-//     -webkit-transform: rotate(360deg);
-//   }
-// }
+@import ".././../util/variables";
 
-// @keyframes spin {
-//   0% {
-//     transform: rotate(0deg);
-//   }
-//   100% {
-//     transform: rotate(360deg);
-//   }
-// }
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
 
-// .loader {
-//   border: 16px solid #f3f3f3;
-//   border-radius: 50%;
-//   border-top: 16px solid #6e7191;
-//   width: 120px;
-//   height: 120px;
-//   -webkit-animation: spin 2s linear infinite;
-//   animation: spin 2s linear infinite;
-// }
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.container {
+  width: 100%;
+  padding: 20px;
+
+  .loader {
+    border: 16px solid $background;
+    border-radius: 50%;
+    border-top: 16px solid $active-color;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    margin: auto;
+  }
+}

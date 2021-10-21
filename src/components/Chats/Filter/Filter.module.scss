@@ -1,0 +1,16 @@
+@import "../../util//variables";
+
+.filter {
+    display: flex;
+    color: $input-color;
+    margin: auto;
+
+    .filter-text {
+        font-weight: 500;
+        font-size: 18px;
+    }
+
+    .icon *{
+        margin: 5px;
+    }
+}

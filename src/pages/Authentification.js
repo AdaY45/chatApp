@@ -51,11 +51,12 @@ const Authentification = () => {
       sixthDigitRef.current.value;
 
     if (ui.type === "login") {
+      console.log(user.token)
       const response = await sendRequest({
         url: "http://localhost:3000/login/secret",
         method: "POST",
         headers: {
-         'Authorization': user.token.token,
+         'Authorization': user.token,
           "Content-Type": "application/json",
         },
         body: {
@@ -65,6 +66,13 @@ const Authentification = () => {
 
       if (response.token) {
         user.setUserToken(response.token);
+        console.log(response)
+        localStorage.setItem(
+          "userData",
+          JSON.stringify({
+            token: response.token,
+          })
+        );
         history.push("/");
       } else if (response.message) {
         setError(response.message);
@@ -75,7 +83,7 @@ const Authentification = () => {
         url: "http://localhost:3000/register/secret",
         method: "POST",
         headers: {
-          'Authorization': user.token.token,
+          'Authorization': user.token,
           "Content-Type": "application/json",
         },
         body: {
@@ -86,6 +94,12 @@ const Authentification = () => {
 
       if (response.token) {
         user.setUserToken(response.token);
+        localStorage.setItem(
+          "userData",
+          JSON.stringify({
+            token: response.token,
+          })
+        );
         history.push("/");
       } else if (response.message) {
         setError(response.message);

@@ -1,0 +1,30 @@
+@import "../../util//variables";
+
+.nav {
+  .nav-btn {
+    display: flex;
+    gap: 17px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: $input-color;
+    font-family: "TT Norms", sans-serif;
+    font-size: 16px;
+    border: none;
+    background: transparent;
+    padding: 25px 0;
+    padding-left: 35px;
+
+    .text {
+        margin: auto;
+        font-weight: 500;
+    }
+  }
+
+  .active {
+    border-left: 4px solid $active-color;
+    // box-shadow: 1px 0px 10px rgba(42, 139, 242, 0.45),
+    //   0px 0px 10px rgba(42, 139, 242, 0.55),
+    //   4px 0px 25px rgba(42, 139, 242, 0.75);
+    border-radius: 3px;
+  }
+}

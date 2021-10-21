@@ -41,6 +41,7 @@ const SignIn = () => {
   );
 
   const onSubmit = async (event) => {
+    console.log("login")
     event.preventDefault();
 
     if (!emailIsValid && !passwordIsValid) {
@@ -61,13 +62,19 @@ const SignIn = () => {
 
     if (response.token) {
       user.setUserToken(response);
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          token: response.token,
+        })
+      );
       ui.setType("login");
 
       history.push("/auth");
     } else if(response.message) {
       setError(response.message);
     }
-    console.log(response.message);
+    console.log(response.token);
 
     // if (response.hasOwnProperty("errors")) {
     //   setError(true);

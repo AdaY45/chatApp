@@ -1,0 +1,72 @@
+@import "../../util/variables";
+
+.container {
+  background: #ffffff;
+  border-radius: 6px;
+  margin-bottom: 20px;
+
+  .chat-info {
+    display: flex;
+    justify-content: space-between;
+
+    .profile-info {
+      display: flex;
+      padding: 30px 40px;
+
+      .img-block {
+        position: relative;
+        .img {
+          width: 50px;
+          border-radius: 30px;
+        }
+
+        .green {
+            position: absolute;
+            background: #00C305;
+            border: 1.5px solid #FFFFFF;
+            padding: 5px;
+            border-radius: 50px;
+        }
+      }
+
+      .text {
+        text-align: left;
+        margin-left: 20px;
+        width: 100%;
+      }
+    }
+    .time * {
+      margin: 30px 10px;
+      color: $input-color;
+      font-weight: 500;
+      font-size: 16px;
+    }
+  }
+
+  .message-block {
+    font-weight: 500;
+    font-size: 16px;
+    color: $input-color;
+    text-align: left;
+    display: flex;
+    padding: 40px;
+    padding-top: 0;
+    padding-bottom: 30px;
+    gap: 36px;
+
+    .message {
+      margin: 0;
+    }
+
+    .unread {
+      color: #fff;
+      margin-top: 10px;
+
+      div {
+        background-color: $indication-color;
+        padding: 5px 10px;
+        border-radius: 50px;
+      }
+    }
+  }
+}

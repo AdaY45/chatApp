@@ -3,7 +3,8 @@
 @font-face {
   font-family: "TT Norms";
   font-weight: 500;
-  src: local("TT Norms"), url(./fonts/font/TTNorms-Medium.woff) format("opentype");
+  src: local("TT Norms"),
+    url(./fonts/font/TTNorms-Medium.woff) format("opentype");
 }
 
 @font-face {
@@ -12,17 +13,49 @@
   src: local("TT Norms"), url(./fonts/font/TTNorms-Bold.woff) format("opentype");
 }
 
-body {
-  margin: 0;
-  font-family: "TT Norms", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: "TT Norms";
+  font-weight: 400;
+  src: local("TT Norms"),
+    url(./fonts/font/TTNorms-Regular.woff) format("opentype");
+}
 
-  .main-text {
-    text-decoration: none;
-    font-size: 36px;
+* {
+  box-sizing: border-box;
+  body {
+    margin: 0;
+    font-family: "TT Norms", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-weight: 500;
-    color: $main-text-color;
+
+    .main-text {
+      text-decoration: none;
+      font-size: 36px;
+      font-weight: 500;
+      color: $main-text-color;
+      margin-top: 15px;
+    }
+
+    button {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: "TT Norms", sans-serif;
+    }
+
+    .name {
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 6px;
+      color: $main-text-color;
+    }
+
+    .online {
+      color: $active-color;
+      font-size: 16px;
+      font-weight: 500;
+    }
   }
 }
 

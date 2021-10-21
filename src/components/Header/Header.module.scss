@@ -1,0 +1,42 @@
+@import "../util/variables";
+
+.header {
+  position: relative;
+  height: 100vh;
+  background: #ffffff;
+  width: 20%;
+  box-shadow: 14.0351px 0px 25px rgba(86, 128, 248, 0.03),
+    35.0877px 0px 70px rgba(86, 128, 248, 0.05),
+    23.8596px 5.61404px 50px rgba(0, 0, 0, 0.02);
+
+  .profile {
+    padding: 71px 62px;
+    text-align: center;
+
+    .text {
+      display: flex;
+      gap: 10px;
+      font-size: 18px;
+
+      .down-btn {
+        border: none;
+        background: transparent;
+      }
+    }
+  }
+
+  .logout {
+    position: absolute;
+    bottom: 2%;
+    display: flex;
+    border: none;
+    background: transparent;
+    gap: 17px;
+    font-family: "TT Norms", sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: $input-color;
+    padding-left: 35px;
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,18 @@
+.container {
+  background: #ffffff;
+  margin: 50px 0;
+  margin-right: 30px;
+  width: 900px;
+  position: relative;
+
+  .message-hat {
+    display: flex;
+    justify-content: space-between;
+    padding: 28px 30px;
+
+    .chat-info {
+      display: flex;
+      gap: 20px;
+    }
+  }
+}

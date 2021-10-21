@@ -1,0 +1,37 @@
+.chats {
+  width: 50%;
+  .head {
+    padding-top: 31px;
+    display: flex;
+    justify-content: space-between;
+
+    h1 {
+      margin-bottom: 15px;
+    }
+
+    button {
+      margin-right: 0;
+    }
+
+    .create {
+      display: flex;
+      justify-content: center;
+      margin-left: auto;
+      margin-top: auto;
+      margin-bottom: auto;
+      font-size: 20px;
+      gap: 7px;
+      padding: 18px 25px;
+      background: linear-gradient(92.68deg, #7cb8f7 0%, #2a8bf2 100%);
+      box-shadow: 6px 6px 25px rgba(42, 139, 242, 0.15),
+        4px 4px 25px rgba(42, 139, 242, 0.05),
+        10px 6px 25px rgba(42, 139, 242, 0.15);
+      border-radius: 6px;
+      color: #ffff;
+    }
+  }
+  .chat-btn {
+    padding: 0;
+    width: 100%;
+  }
+}

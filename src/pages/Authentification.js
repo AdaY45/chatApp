@@ -2,7 +2,6 @@ import { useState, useRef, useContext, useEffect } from "react";
 import { useHistory } from "react-router";
 import Input from "../components/UI/Input/Input";
 import useHttp from "../hooks/use-http";
-import useInput from "../hooks/use-input";
 import UIContext from "../context/ui-context";
 import UserContext from "../context/user-context";
 import styles from "./Authentification.module.scss";

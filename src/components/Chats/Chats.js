@@ -8,26 +8,18 @@ import useHttp from "../../hooks/use-http";
 import UserContext from "../../context/user-context";
 import UIContext from "../../context/ui-context";
 import Loader from "../UI/Loader/Loader";
-import ChatContext from "../../context/chat-context";
 
 const Chats = () => {
   const [chats, setChats] = useState([]);
-  const chat = useContext(ChatContext);
+  const [isClicked, setIsClicked] = useState(false);
   const ui = useContext(UIContext);
   const user = useContext(UserContext);
   const { isLoading, errorMessage, sendRequest } = useHttp();
 
-  // const chatClickHandler = (event) => {
-  //   console.log(event);
-  //   chat.addChatId(event.target.id);
-  //   ui.setIsOpenChat(true);
-  // };
-
-  chats.forEach((el) => console.log(el.id))
+  chats.forEach((el) => console.log(el.id));
 
   useEffect(() => {
     const getChats = async () => {
-      console.log("token chats:" + user.token);
       const response = await sendRequest({
         url: "http://localhost:3000/chat-list/1/10",
         headers: {
@@ -65,14 +57,14 @@ const Chats = () => {
       {chats.map((el) => (
         <button
           key={el.id}
-          onClick={(() => {
-            //console.log('el', el.id)
-            chat.setId(el.id);
+          onClick={() => {
+            user.setChat(el);
+            setIsClicked(true);
             ui.setIsOpenChat(true);
-          })}
-          className={styles["chat-btn"]}
+          }}
+          className={`${styles["chat-btn"]}`}
         >
-          <Chat key={el.id} chat={el} />
+          <Chat key={el.id} chat={el} isFile={el.hasOwnProperty("file")} style={isClicked && el.id === user.chat.id ? "active" : ""}/>
         </button>
       ))}
     </section>

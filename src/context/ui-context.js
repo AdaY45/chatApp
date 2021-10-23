@@ -4,15 +4,18 @@ const UIContext = React.createContext({
   type: "",
   isOpenChats: false,
   isOpenChat: false,
+  isEmojii: false,
   setType: (type) => {},
   setIsOpenChats: (isOpenChats) => {},
   setIsOpenChat: (isOpenChat) => {},
+  setIsEmojji: (isEmojii) => {},
 });
 
 export const UIContextProvider = (props) => {
   const [type, setType] = useState("");
   const [isOpenChats, setIsOpenChats] = useState(false);
   const [isOpenChat, setIsOpenChat] = useState(false);
+  const [isEmojii, setIsEmojji] = useState(false);
 
   const setTypeForAuth = (type) => {
     setType(type);
@@ -26,6 +29,10 @@ export const UIContextProvider = (props) => {
     setIsOpenChat(type);
   };
 
+  const addIsEmojii = (isEmojii) => {
+    setIsEmojji(isEmojii);
+  };
+
   return (
     <UIContext.Provider
       value={{
@@ -35,6 +42,8 @@ export const UIContextProvider = (props) => {
         setIsOpenChats: setOpenChats,
         isOpenChat: isOpenChat,
         setIsOpenChat: setOpenChat,
+        isEmojii: isEmojii,
+        setIsEmojji: addIsEmojii
       }}
     >
       {props.children}

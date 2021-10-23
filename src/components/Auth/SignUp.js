@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-//import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import Input from "../UI/Input/Input";
 import Button from "../UI/Button/Button";
@@ -8,16 +7,14 @@ import useInput from "../../hooks/use-input";
 import useHttp from "../../hooks/use-http";
 import  UserContext from "../../context/user-context";
 import UIContext from "../../context/ui-context";
-import { NavLink } from "react-router-dom";
 import styles from "./SignUp.module.scss";
+import Loader from "../UI/Loader/Loader";
 
 const SignUp = () => {
   const history = useHistory();
-  const [isChecked, setIsChecked] = useState(false);
   const user = useContext(UserContext);
   const ui = useContext(UIContext);
   const [error, setError] = useState(false);
-  //const auth = useSelector((state) => state.user.auth);
   const { isLoading, errorMessage, sendRequest } = useHttp();
   const [emailExists, setEmailExists] = useState(false);
   const [userExists, setUserExists] = useState(false);
@@ -93,35 +90,6 @@ const SignUp = () => {
     } else if(response.message) {
       setError(response.message);
     }
-
-    // const response = await sendRequest({
-    //   url: "/register",
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: {
-    //     username: username,
-    //     type: isChecked ? "admin" : "user",
-    //     email: email,
-    //     password: password,
-    //   },
-    // });
-
-    // if (response.errors) {
-    //   setUserExists(true);
-    // } else {
-    //   localStorage.setItem(
-    //     "userData",
-    //     JSON.stringify({
-    //       userId: response.user._id,
-    //       username: response.user.username,
-    //       type: response.user.type,
-    //     })
-    //   );
-
-    //   history.push(`/login`);
-    // }
   };
 
   const emailInputStyles = emailHasErrors ? "invalid" : "";
@@ -135,6 +103,7 @@ const SignUp = () => {
     <Fragment>
       {userExists && <p className="error">User already exists</p>}
       {error && <div className="error">{error}</div>}
+      {isLoading && <Loader />}
       <form className={styles.form} onSubmit={onSubmit}>
         {emailExists && (
           <div className="error">User with such email already exists.</div>

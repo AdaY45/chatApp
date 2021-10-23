@@ -1,12 +1,10 @@
 import { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
 import HomeIcon from "../../UI/Icons/Header/HomeIcon";
 import ChatIcon from "../../UI/Icons/Header/ChatIcon";
 import ContactIcon from "../../UI/Icons/Header/ContactIcon";
 import NotificationsIcon from "../../UI/Icons/Header/NotificationsIcon";
 import CalendarIcon from "../../UI/Icons/Header/CalendarIcon";
 import SettingsIcon from "../../UI/Icons/Header/SettingsIcon";
-import LogoutIcon from "../../UI/Icons/Header/LogoutIcon";
 import UIContext from "../../../context/ui-context";
 import styles from "./Navigation.module.scss";
 

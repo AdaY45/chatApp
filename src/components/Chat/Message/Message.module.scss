@@ -1,37 +1,88 @@
 @import "../../util/variables";
 
-.message {
-  display: flex;
-  gap: 10px;
+.container {
+  padding: 20px 30px;
 
-  .message-block {
-    background: linear-gradient(90.54deg, #60a9f6 0%, #2a8bf2 100%);
+  .message {
+    display: flex;
+    gap: 10px;
 
-    box-shadow: 10px 10px 25px rgba(42, 139, 242, 0.1),
-      15px 15px 35px rgba(42, 139, 242, 0.05),
-      10px 10px 50px rgba(42, 139, 242, 0.1);
-    border-radius: 0px 10px 10px 10px;
-    padding: 15px 20px;
-    color: #ffffff;
-    margin: 15px 0;
-    width: auto;
-    max-width: 400px;
+    .checked {
+      margin: auto 0;
+    }
+
+    .profile-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+    }
+
+    .message-block {
+      background: linear-gradient(90.54deg, #60a9f6 0%, #2a8bf2 100%);
+
+      box-shadow: 10px 10px 25px rgba(42, 139, 242, 0.1),
+        15px 15px 35px rgba(42, 139, 242, 0.05),
+        10px 10px 50px rgba(42, 139, 242, 0.1);
+      border-radius: 0px 10px 10px 10px;
+      padding: 15px 20px;
+      color: #ffffff;
+      margin: 0;
+      width: auto;
+      max-width: 400px;
+      font-weight: 400;
+      line-height: 26px;
+
+      .photo {
+        width: 350px;
+        height: auto;
+      }
+
+      .file {
+        display: flex;
+        gap: 10px;
+        color: #ffff;
+        text-decoration: none;
+
+        .file-icon {
+          padding: 8px;
+          background: rgba(255, 255, 255, 0.25);
+          border-radius: 6px;
+          margin: auto;
+
+          * {
+            margin: auto;
+            vertical-align: middle;
+          }
+        }
+
+        .file-info {
+          .name {
+            font-weight: 400;
+          }
+
+          .size {
+            font-size: 14px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
+
+    .owner {
+      background: #ffffff;
+      border: 1px solid rgba(112, 124, 151, 0.25);
+      box-shadow: 10px 10px 25px rgba(112, 124, 151, 0.05),
+        15px 15px 35px rgba(112, 124, 151, 0.05);
+      color: $input-color;
+      border-radius: 10px 10px 0 10px;
+    }
+
+    .icon {
+      transform: rotate(90deg);
+    }
   }
 
   .owner {
-    background: #ffffff;
-    border: 1px solid rgba(112, 124, 151, 0.25);
-    box-shadow: 10px 10px 25px rgba(112, 124, 151, 0.05),
-      15px 15px 35px rgba(112, 124, 151, 0.05);
-    color: $input-color;
-    border-radius: 10px 10px 0 10px;
+    flex-direction: row-reverse;
   }
-
-  .icon {
-    transform: rotate(90deg);
-  }
-}
-
-.owner {
-  flex-direction: row-reverse;
 }

@@ -34,7 +34,7 @@ function FileIcon(props) {
         />
       </mask>
       <g mask="url(#file)">
-        <path fill="#fff" d="M0 0h24v24H0z" />
+        <path fill={props.isFile ? "#2A8BF2" : "#fff"} d="M0 0h24v24H0z" />
       </g>
     </svg>
   )

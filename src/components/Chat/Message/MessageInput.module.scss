@@ -1,11 +1,11 @@
 .container {
-    bottom: 0;
-    position: absolute;
-    bottom: 0;
-    width: 90%;
-    padding: 20px 0;
-    margin: 0 30px;
-    border-top: 2px solid rgba(112, 124, 151, 0.15);;
+  bottom: 0;
+  position: absolute;
+  bottom: 0;
+  width: 90%;
+  padding: 20px 0;
+  margin: 0 30px;
+  border-top: 2px solid rgba(112, 124, 151, 0.15);
 
   .form {
     display: flex;
@@ -14,6 +14,12 @@
 
     .plus-nav {
       margin: 0;
+
+      .nav {
+        position: absolute;
+        bottom: 80%;
+        left: -1%;
+      }
     }
 
     .message {
@@ -26,10 +32,10 @@
       font-weight: 500;
     }
 
-    .message::placeholder { 
-        color: rgba(112, 124, 151, 0.5);
-        opacity: 1; /* Firefox */
-      }
+    .message::placeholder {
+      color: rgba(112, 124, 151, 0.5);
+      opacity: 1; /* Firefox */
+    }
 
     .input-message-btn {
       .icon {
@@ -37,6 +43,12 @@
         padding: 10px 10px 7px 10px;
         border-radius: 50px;
       }
+    }
+
+    .emoji {
+      position: absolute;
+      bottom: 80%;
+      right: -8%;
     }
   }
 }

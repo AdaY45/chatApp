@@ -1,23 +1,53 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import VideoIcon from "../../UI/Icons/Messages/VideoIcon";
 import PhotoIcon from "../../UI/Icons/Messages/PhotoIcon";
-import FileIcon from "../../UI/Icons/Messages/FileIcon";
 import PlusIcon from "../../UI/Icons/Messages/PlusIcon";
 import SmileIcon from "../../UI/Icons/Messages/SmileIcon";
 import SendIcon from "../../UI/Icons/Messages/SendIcon";
-import Input from "../../UI/Input/Input";
 import OpenFile from "../../UI/Button/OpenFile";
-import Button from "../../UI/Button/Button";
+import Picker from "emoji-picker-react";
+import useSocket from "../../../hooks/use-socket";
+import UserContext from "../../../context/user-context";
+import UIContext from "../../../context/ui-context";
 import styles from "./MessageInput.module.scss";
+import FileIcon from "../../UI/Icons/Messages/FileIcon";
 
-const MessageInput = () => {
+const MessageInput = (props) => {
   const [showNav, setShowNav] = useState(false);
+  const [isOpenEmoji, setIsOpenEmoji] = useState(false);
+  const [message, setMessage] = useState("");
+  const user = useContext(UserContext);
+  const ui = useContext(UIContext);
+  const sendMessage = useSocket(props.onSetMessages, props.messages);
 
-  const plusHandler = () => {
-    setShowNav(true);
+  const onEmojiClick = (event, emojiObject) => {
+    ui.setIsEmojji(true);
+    setMessage((previousState) => previousState.concat(emojiObject.emoji));
   };
 
-  const submitHandler = () => {};
+  const plusHandler = (event) => {
+    event.preventDefault();
+
+    setShowNav(!showNav);
+  };
+
+  const onEmojiOpenClick = (event) => {
+    event.preventDefault();
+
+    setIsOpenEmoji(!isOpenEmoji);
+  };
+
+  const onChangeInput = (event) => {
+    setMessage(event.target.value);
+  };
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+
+    sendMessage(user.chat.id, message);
+
+    setMessage("");
+  };
 
   return (
     <div className={styles.container}>
@@ -34,7 +64,7 @@ const MessageInput = () => {
               </OpenFile>
 
               <OpenFile id="fileupload">
-                <PhotoIcon />
+                <FileIcon />
               </OpenFile>
             </div>
           )}
@@ -49,10 +79,17 @@ const MessageInput = () => {
           type="text"
           placeholder="Type a message here"
           className={styles.message}
+          value={message}
+          onChange={onChangeInput}
         />
-        <button className={styles.smile}>
+        <button className={styles.smile} onClick={onEmojiOpenClick}>
           <SmileIcon />
         </button>
+        {isOpenEmoji && (
+          <div className={styles.emoji}>
+            <Picker onEmojiClick={onEmojiClick} />
+          </div>
+        )}
 
         <button className={styles["input-message-btn"]}>
           <div className={styles.icon}>

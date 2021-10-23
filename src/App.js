@@ -23,7 +23,7 @@ function App() {
           localStorage.getItem("userData") ||
             '{"token":null}'
         );
-        console.log("token: " + data.token)
+        // console.log("token: " + data.token)
         // if (data && data.token) {
         //   if (Date.now() - data.createdAt >= 60 * 60 * 24 * 30) {
         //     localStorage.removeItem("userData");

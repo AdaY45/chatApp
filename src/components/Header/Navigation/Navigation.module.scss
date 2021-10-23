@@ -4,6 +4,7 @@
   .nav-btn {
     display: flex;
     gap: 17px;
+    width: 100%;
     text-transform: uppercase;
     text-decoration: none;
     color: $input-color;
@@ -15,7 +16,8 @@
     padding-left: 35px;
 
     .text {
-        margin: auto;
+        text-align: left;
+        margin-top: 3px;
         font-weight: 500;
     }
   }

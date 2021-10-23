@@ -2,10 +2,10 @@ import MessageBlock from "./Message/MessageBlock";
 import MessageInput from "./Message/MessageInput";
 import styles from "./Messages.module.scss";
 
-const Messages = () => {
+const Messages = (props) => {
     return <div className={styles.chat}>
-        <MessageBlock />
-        <MessageInput />
+        <MessageBlock messages={props.messages}/>
+        <MessageInput messages={props.messages} onSetMessages={props.onSetMessages}/>
     </div>
 };
 

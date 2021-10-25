@@ -8,7 +8,7 @@ const MessageBlock = (props) => {
       <div className={styles.container}>
         <div className={styles.messages}>
           {messages.map((el) => 
-            <Message key={el.id} message={el}/>
+            <Message key={el.id} message={el} onSetMessages={props.onSetMessages} onSetMessage={props.onSetMessage}/>
           )}
           {/* <div className={styles.time}>4 days ago</div> */}
         </div>

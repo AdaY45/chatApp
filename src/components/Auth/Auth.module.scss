@@ -1,19 +1,25 @@
 @import "../util//variables";
 
 .auth {
-    text-align: center;
-    padding: 20px 400px;
-    position: absolute;
-    top: 50%;
-    left: 8%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+  text-align: center;
+  padding: 20px 400px;
+  position: absolute;
+  top: 50%;
+  left: 8%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 
   .auth-btn {
     display: flex;
     justify-content: center;
     gap: 20px;
     padding: 70px;
+
+    .dash {
+      * {
+        margin-top: 10px;
+      }
+    }
 
     .is-active {
       position: relative;
@@ -41,8 +47,8 @@
     }
 
     div {
-        font-size: 36px;
-        color: $main-text-color;
+      font-size: 36px;
+      color: $main-text-color;
     }
   }
 }

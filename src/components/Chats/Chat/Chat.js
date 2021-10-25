@@ -21,8 +21,8 @@ const Chat = (props) => {
             <div className="online">{chat.status}</div>
           </div>
         </div>
-        <div className={`${styles.time} ${props.style ? "text-color" :  ""}`}>
-          <div className="text-color">{msToDate(chat.time)}</div>
+        <div className={`${styles.time} ${props.style ? "text-color" : ""}`}>
+          <div className="text-color">{user.message && user.message.room === chat.id ? msToDate(user.message.date) : msToDate(chat.time)}</div>
         </div>
       </div>
       <div className={styles["message-block"]}>
@@ -32,7 +32,11 @@ const Chat = (props) => {
             <div>File</div>
           </div>
         ) : (
-          <p className={`${styles.message} ${props.style ? "text-color" :  ""}`}>{user.message ? user.message : chat.message}</p>
+          <p className={`${styles.message} ${props.style ? "text-color" : ""}`}>
+            {user.message && user.message.room === chat.id
+              ? user.message.text
+              : chat.message}
+          </p>
         )}
         {chat.noChecked > 0 && (
           <div className={styles.unread}>

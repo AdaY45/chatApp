@@ -15,14 +15,15 @@ import FileIcon from "../../UI/Icons/Messages/FileIcon";
 const MessageInput = (props) => {
   const [showNav, setShowNav] = useState(false);
   const [isOpenEmoji, setIsOpenEmoji] = useState(false);
-  const [message, setMessage] = useState("");
   const user = useContext(UserContext);
   const ui = useContext(UIContext);
-  const sendMessage = useSocket(props.onSetMessages, props.messages);
+  const { sendMessage, updateMessage } = useSocket(props.onSetMessages);
 
   const onEmojiClick = (event, emojiObject) => {
     ui.setIsEmojji(true);
-    setMessage((previousState) => previousState.concat(emojiObject.emoji));
+    props.onSetMessage((previousState) =>
+      previousState.concat(emojiObject.emoji)
+    );
   };
 
   const plusHandler = (event) => {
@@ -38,15 +39,20 @@ const MessageInput = (props) => {
   };
 
   const onChangeInput = (event) => {
-    setMessage(event.target.value);
+    props.onSetMessage(event.target.value);
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
 
-    sendMessage(user.chat.id, message);
+    if (ui.isEdit) {
+      updateMessage(user.messageId, props.message);
+      ui.setIsEdit(false);
+    } else {
+      sendMessage(user.chat.id, props.message);
+    }
 
-    setMessage("");
+    props.onSetMessage("");
   };
 
   return (
@@ -79,7 +85,7 @@ const MessageInput = (props) => {
           type="text"
           placeholder="Type a message here"
           className={styles.message}
-          value={message}
+          value={props.message}
           onChange={onChangeInput}
         />
         <button className={styles.smile} onClick={onEmojiOpenClick}>

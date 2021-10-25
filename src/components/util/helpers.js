@@ -31,7 +31,7 @@ export const msToDate = (ms) => {
   } else if (r.second !== 0) {
     return `${r.second} seconds ago`;
   } else {
-    return "error";
+    return "1 second ago";
   }
 };
 

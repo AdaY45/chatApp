@@ -16,12 +16,10 @@ const Chats = () => {
   const user = useContext(UserContext);
   const { isLoading, errorMessage, sendRequest } = useHttp();
 
-  chats.forEach((el) => console.log(el.id));
-
   useEffect(() => {
     const getChats = async () => {
       const response = await sendRequest({
-        url: "http://localhost:3000/chat-list/1/10",
+        url: "http://localhost:3000/chat-list/0/10",
         headers: {
           Authorization: user.token,
           "Content-Type": "application/json",

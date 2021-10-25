@@ -13,6 +13,12 @@
     padding: 71px 62px;
     text-align: center;
 
+    .image {
+      width: 55px;
+      height: 55px;
+      border-radius: 50px;
+    }
+
     .text {
       display: flex;
       gap: 10px;

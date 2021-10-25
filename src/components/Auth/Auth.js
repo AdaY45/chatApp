@@ -9,7 +9,7 @@ const Auth = (props) => {
     <section className={styles.auth}>
       <div className={styles["auth-btn"]}>
         <NavLink to="/login" activeClassName={styles['is-active']} className="main-text">Sign In</NavLink>
-        <div>/</div>
+        <div className={styles.dash}><div>/</div></div>
         <NavLink to="/register" activeClassName={styles['is-active']} className="main-text">Sign Up</NavLink>
       </div>
       {props.isSignUp ? <SignUp /> : <SignIn />}

@@ -1,13 +1,14 @@
+import { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { formatBytes } from "../../util/helpers";
-import MoreIcon from "../../UI/Icons/Messages/MoreIcon";
 import CheckedIcon from "../../UI/Icons/Messages/CheckedIcon";
 import styles from "./Message.module.scss";
 import FileIcon from "../../UI/Icons/Messages/FileIcon";
+import MoreButton from "./MoreButton";
 
 const Message = (props) => {
-  const { message, image, onSetImage } = props;
-  const userStyle = message.type === "user" ? styles.owner : "";
+  const { message } = props;
+  const userStyle = message.type === "user";
   const isImage =
     message.file &&
     (message.file.name.includes("jpeg") ||
@@ -16,7 +17,7 @@ const Message = (props) => {
 
   return (
     <div className={styles.container}>
-      <div className={`${styles.message} ${userStyle}`}>
+      <div className={`${styles.message} ${userStyle ? styles.owner : ""}`}>
         {message.type !== "user" && (
           <div className={styles.image}>
             <img
@@ -31,7 +32,11 @@ const Message = (props) => {
             <CheckedIcon />
           </div>
         )}
-        <div className={`${styles["message-block"]} ${userStyle}`}>
+        <div
+          className={`${styles["message-block"]} ${
+            userStyle ? styles.owner : ""
+          }`}
+        >
           <div className={styles.text}>{message.text}</div>
           {isImage && (
             <img
@@ -59,9 +64,12 @@ const Message = (props) => {
             </NavLink>
           )}
         </div>
-        <button className={styles.icon}>
-          <MoreIcon />
-        </button>
+        <MoreButton
+          userStyle={userStyle}
+          onSetMessages={props.onSetMessages}
+          message={props.message}
+          onSetMessage={props.onSetMessage}
+        />
       </div>
       {/* {showTime && <div className={styles.time}>{message.date}</div>} */}
     </div>

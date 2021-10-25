@@ -3,6 +3,8 @@
 .container {
   padding: 20px 30px;
 
+  
+
   .message {
     display: flex;
     gap: 10px;
@@ -77,9 +79,7 @@
       border-radius: 10px 10px 0 10px;
     }
 
-    .icon {
-      transform: rotate(90deg);
-    }
+    
   }
 
   .owner {

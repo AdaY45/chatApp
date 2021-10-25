@@ -67,6 +67,8 @@ const SignIn = () => {
       history.push("/auth");
     } else if(response.message) {
       setError(response.message);
+    } else {
+      setError(response);
     }
   };
 
@@ -79,6 +81,7 @@ const SignIn = () => {
       <form className={styles.form} onSubmit={onSubmit}>
         {error && <div className="error">{error}</div>}
         {isLoading && <Loader />}
+        {errorMessage && <div className="error">{errorMessage}</div>}
         {emailHasErrors && <p className="error">Email is not valid</p>}
         <Input
           input={{ id: "email", type: "text", placeholder: "E-mail" }}

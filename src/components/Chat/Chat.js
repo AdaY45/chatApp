@@ -16,7 +16,7 @@ const Chat = () => {
   useEffect(() => {
     const getChats = async () => {
       const response = await sendRequest({
-        url: `http://localhost:3000/chat-room/${user.chat.id}/1/10`,
+        url: `http://localhost:3000/chat-room/${user.chat.id}/0/10`,
         headers: {
           Authorization: user.token,
           "Content-Type": "application/json",

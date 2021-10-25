@@ -77,7 +77,6 @@ const SignUp = () => {
 
     if(response.token) {
       user.setUserToken(response);
-      user.setUserInfo({email, firstName, lastName, password});
       ui.setType("register");
       localStorage.setItem(
         "userData",
@@ -89,6 +88,8 @@ const SignUp = () => {
       history.push('/auth');
     } else if(response.message) {
       setError(response.message);
+    } else {
+      setError(response);
     }
   };
 
@@ -104,6 +105,7 @@ const SignUp = () => {
       {userExists && <p className="error">User already exists</p>}
       {error && <div className="error">{error}</div>}
       {isLoading && <Loader />}
+      {errorMessage && <div className="error">{errorMessage}</div>}
       <form className={styles.form} onSubmit={onSubmit}>
         {emailExists && (
           <div className="error">User with such email already exists.</div>

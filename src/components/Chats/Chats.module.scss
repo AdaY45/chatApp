@@ -1,5 +1,12 @@
 .chats {
   width: 50%;
+
+  .chats-container {
+    overflow-y: scroll;
+    height: 500px;
+    width: 100%;
+  }
+
   .head {
     padding-top: 31px;
     display: flex;
@@ -33,5 +40,24 @@
   .chat-btn {
     padding: 0;
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .chats {
+    width: 100%;
+    padding-right: 20px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .chats {
+    .head {
+      flex-direction: column;
+      .create {
+        margin: 0;
+        margin-top: 10px;
+      }
+    }
   }
 }

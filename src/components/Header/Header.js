@@ -7,28 +7,32 @@ import useHttp from "../../hooks/use-http";
 import UserContext from "../../context/user-context";
 import styles from "./Header.module.scss";
 import LogoutIcon from "../UI/Icons/Header/LogoutIcon";
+import Loader from "../UI/Loader/Loader";
 
 const Header = () => {
   const history = useHistory();
   const { isLoading, errorMessage, sendRequest } = useHttp();
+  const [isReady, setIsReady] = useState(false);
   const user = useContext(UserContext);
   const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     const getUserInfo = async () => {
-        const response = await sendRequest({
-          url: `http://localhost:3000/find`,
-          headers: {
-            Authorization: user.token,
-            "Content-Type": "application/json",
-          },
-        });
-  
-        setUserInfo(response);
-        user.setUserEmail(response.email);
-      };
-  
-      getUserInfo();
+      setIsReady(false)
+      const response = await sendRequest({
+        url: `http://localhost:3000/find`,
+        headers: {
+          Authorization: user.token,
+          "Content-Type": "application/json",
+        },
+      });
+
+      setUserInfo(response);
+      user.setUserEmail(response.email);
+      setIsReady(true);
+    };
+
+    getUserInfo();
   }, [sendRequest, user.token]);
 
   const logoutHandler = () => {
@@ -37,15 +41,23 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <div className={styles["profile"]}>
-        <img src={`http://localhost:3000/images/${userInfo.photo}`} alt="profileImg" className={styles.image}/>
-        <div className={styles.text}>
-          <div className={styles.name}>{`${userInfo.firstName} ${userInfo.lastName}`}</div>
-          <button className={styles["down-btn"]}>
-            <DownIcon color="#0D1C2E" />
-          </button>
+      {isReady ? (
+        <div className={styles["profile"]}>
+          <img
+            src={`http://localhost:3000/images/${userInfo.photo}`}
+            alt="profileImg"
+            className={styles.image}
+          />
+          <div className={styles.text}>
+            <div
+              className={styles.name}
+            >{`${userInfo.firstName} ${userInfo.lastName}`}</div>
+            <button className={styles["down-btn"]}>
+              <DownIcon color="#0D1C2E" />
+            </button>
+          </div>
         </div>
-      </div>
+      ) : <Loader />}
 
       <Navigation />
 

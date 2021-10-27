@@ -5,6 +5,7 @@ import styles from "./Messages.module.scss";
 
 const Messages = (props) => {
   const [message, setMessage] = useState("");
+
   return (
     <div className={styles.chat}>
       <MessageBlock

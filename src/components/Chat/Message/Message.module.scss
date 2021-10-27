@@ -1,9 +1,7 @@
 @import "../../util/variables";
 
 .container {
-  padding: 20px 30px;
-
-  
+  padding: 20px 30px;  
 
   .message {
     display: flex;
@@ -84,5 +82,11 @@
 
   .owner {
     flex-direction: row-reverse;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    padding: 10px;
   }
 }

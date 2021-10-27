@@ -28,6 +28,21 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 500;
+    overflow: hidden;
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #B7BDCB;
+      border-radius: 40px;
+      outline: none;
+    }
 
     .main-text {
       text-decoration: none;

@@ -44,6 +44,7 @@ const MessageInput = (props) => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    setIsOpenEmoji(false);
 
     if (ui.isEdit) {
       updateMessage(user.messageId, props.message);

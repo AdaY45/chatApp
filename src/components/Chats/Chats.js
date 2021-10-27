@@ -7,6 +7,7 @@ import Chat from "./Chat/Chat";
 import useHttp from "../../hooks/use-http";
 import UserContext from "../../context/user-context";
 import UIContext from "../../context/ui-context";
+import useWindowDimensions from "../../hooks/use-dimensions";
 import Loader from "../UI/Loader/Loader";
 
 const Chats = () => {
@@ -15,17 +16,17 @@ const Chats = () => {
   const ui = useContext(UIContext);
   const user = useContext(UserContext);
   const { isLoading, errorMessage, sendRequest } = useHttp();
+  const windowDimensions = useWindowDimensions();
 
   useEffect(() => {
     const getChats = async () => {
       const response = await sendRequest({
-        url: "http://localhost:3000/chat-list/0/10",
+        url: `http://localhost:3000/chat-list/0/0`,
         headers: {
           Authorization: user.token,
           "Content-Type": "application/json",
         },
       });
-
       setChats(response);
       console.log(response);
     };
@@ -52,19 +53,29 @@ const Chats = () => {
 
       {isLoading && <Loader />}
 
-      {chats.map((el) => (
-        <button
-          key={el.id}
-          onClick={() => {
-            user.setChat(el);
-            setIsClicked(true);
-            ui.setIsOpenChat(true);
-          }}
-          className={`${styles["chat-btn"]}`}
-        >
-          <Chat key={el.id} chat={el} isFile={el.hasOwnProperty("file")} style={isClicked && el.id === user.chat.id ? "active" : ""}/>
-        </button>
-      ))}
+      <div className={styles["chats-container"]}>
+        {chats.map((el) => (
+          <button
+            key={el.id}
+            onClick={() => {
+              user.setChat(el);
+              setIsClicked(true);
+              ui.setIsOpenChat(true);
+              if(windowDimensions.width < 1100) {
+                ui.setIsOpenChats(false);
+              }
+            }}
+            className={`${styles["chat-btn"]}`}
+          >
+            <Chat
+              key={el.id}
+              chat={el}
+              isFile={el.hasOwnProperty("file")}
+              style={isClicked && el.id === user.chat.id ? "active" : ""}
+            />
+          </button>
+        ))}
+      </div>
     </section>
   );
 };

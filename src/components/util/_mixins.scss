@@ -1,0 +1,33 @@
+@mixin hide-nav($resolution, $padding) {
+  @media screen and (max-width: $resolution) {
+    .nav {
+      .nav-btn {
+        display: block;
+        padding: $padding;
+
+        .text {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@mixin hide-header($resolution, $width, $padding) {
+  @media screen and (max-width: $resolution) {
+    .header {
+      width: $width;
+      .profile {
+        display: none;
+      }
+
+      .logout {
+        padding: $padding;
+        display: block;
+        .text {
+          display: none;
+        }
+      }
+    }
+  }
+}

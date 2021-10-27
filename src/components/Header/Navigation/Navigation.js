@@ -6,14 +6,20 @@ import NotificationsIcon from "../../UI/Icons/Header/NotificationsIcon";
 import CalendarIcon from "../../UI/Icons/Header/CalendarIcon";
 import SettingsIcon from "../../UI/Icons/Header/SettingsIcon";
 import UIContext from "../../../context/ui-context";
+import useWindowDimensions from "../../../hooks/use-dimensions";
 import styles from "./Navigation.module.scss";
 
 const Navigation = () => {
   const [isActive, setIsActive] = useState(false);
-  const isOpenChats = useContext(UIContext);
+  const ui = useContext(UIContext);
+  const dimensions = useWindowDimensions();
+
   const clickHandler = () => {
-      setIsActive(true);
-      isOpenChats.setIsOpenChats(true);
+    setIsActive(true);
+    ui.setIsOpenChats(true);
+    if (dimensions.width < 1100) {
+      ui.setIsOpenChat(false);
+    }
   };
 
   return (
@@ -23,8 +29,11 @@ const Navigation = () => {
         <div className={styles.text}>Home</div>
       </button>
 
-      <button onClick={clickHandler} className={`${styles["nav-btn"]} ${isActive && styles.active}`}>
-        <ChatIcon active={isActive}/>
+      <button
+        onClick={clickHandler}
+        className={`${styles["nav-btn"]} ${isActive && styles.active}`}
+      >
+        <ChatIcon active={isActive} />
         <div className={styles.text}>Chat</div>
       </button>
 

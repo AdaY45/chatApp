@@ -31,3 +31,15 @@
       border-radius: 0 6px 6px 0;
   }
 }
+
+@media screen and (max-width: 700px){
+  .container {
+    .icon {
+      padding: 21px 10px;
+    }
+
+    .messages {
+      padding: 20px 10px;
+    }
+  }
+}

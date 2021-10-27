@@ -29,7 +29,6 @@ const useSocket = (onSetMessages) => {
         },
       ]);
       user.setUserMassage({room: data.room, text: data.text, date: data.date});
-      //setMessage(data.text);
     });
 
     socket.on("client-delete-message", function (data) {

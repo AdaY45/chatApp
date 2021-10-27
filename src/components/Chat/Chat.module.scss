@@ -1,3 +1,5 @@
+@import "../util/variables";
+
 .container {
   background: #ffffff;
   margin: 50px 0;
@@ -6,6 +8,15 @@
   position: relative;
   box-shadow: 0px 10px 55px rgba(0, 0, 0, 0.05),
     0px 4px 10px rgba(0, 0, 0, 0.13), 0px 30px 35px rgba(0, 0, 0, 0.05);
+
+  .loader {
+    position: absolute;
+    width: 100%;
+    height: 500px;
+    background: #ffff;
+    z-index: 2;
+    margin: auto;
+  }
 
   .message-hat {
     display: flex;
@@ -28,5 +39,27 @@
         border-radius: 50px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    margin: 25px 15px 25px 0;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .container {
+    margin: 10px;
+    margin-left: 0;
+    margin-top: 0;
+
+    .message-hat {
+      padding: 20px 10px;
+
+      .nav {
+        display: flex;
+      }
+    }  
   }
 }

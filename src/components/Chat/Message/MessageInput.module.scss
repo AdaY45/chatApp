@@ -52,3 +52,23 @@
     }
   }
 }
+
+@media screen and (max-width: 700px) {
+  .container {
+    margin: 0;
+    width: 100%;
+
+    .form {
+      gap: 5px;
+
+      .message {
+        font-size: 16px;
+        padding: 0;
+      }
+
+      .emoji {
+        right: -2%;
+      }
+    }
+  }
+}

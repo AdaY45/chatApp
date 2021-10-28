@@ -17,7 +17,7 @@ const Authentification = () => {
   const ui = useContext(UIContext);
   const user = useContext(UserContext);
   const [error, setError] = useState(null);
-  const { isLoading, errorMessage, sendRequest } = useHttp();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     firstDigitRef.current.focus();
@@ -49,61 +49,64 @@ const Authentification = () => {
       fifthDigitRef.current.value +
       sixthDigitRef.current.value;
 
-    if (ui.type === "login") {
-      console.log(user.token)
-      const response = await sendRequest({
-        url: "http://localhost:3000/login/secret",
-        method: "POST",
-        headers: {
-         'Authorization': user.token,
-          "Content-Type": "application/json",
-        },
-        body: {
-          secretKey,
-        },
-      });
+      setIsLoading(true);
+      user.authentification(secretKey, setError);
+      setIsLoading(false);
+    // if (ui.type === "login") {
+    //   console.log(user.token)
+    //   const response = await sendRequest({
+    //     url: "http://localhost:3000/login/secret",
+    //     method: "POST",
+    //     headers: {
+    //      'Authorization': user.token,
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: {
+    //       secretKey,
+    //     },
+    //   });
 
-      if (response.token) {
-        user.setUserToken(response.token);
-        console.log(response)
-        localStorage.setItem(
-          "userData",
-          JSON.stringify({
-            token: response.token,
-          })
-        );
-        history.push("/");
-      } else if (response.message) {
-        setError(response.message);
-      }
-    }
-    if (ui.type === "register") {
-      const response = await sendRequest({
-        url: "http://localhost:3000/register/secret",
-        method: "POST",
-        headers: {
-          'Authorization': user.token,
-          "Content-Type": "application/json",
-        },
-        body: {
-          ...user.user,
-          secretKey,
-        },
-      });
+    //   if (response.token) {
+    //     user.setUserToken(response.token);
+    //     console.log(response)
+    //     localStorage.setItem(
+    //       "userData",
+    //       JSON.stringify({
+    //         token: response.token,
+    //       })
+    //     );
+    //     history.push("/");
+    //   } else if (response.message) {
+    //     setError(response.message);
+    //   }
+    // }
+    // if (ui.type === "register") {
+    //   const response = await sendRequest({
+    //     url: "http://localhost:3000/register/secret",
+    //     method: "POST",
+    //     headers: {
+    //       'Authorization': user.token,
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: {
+    //       ...user.user,
+    //       secretKey,
+    //     },
+    //   });
 
-      if (response.token) {
-        user.setUserToken(response.token);
-        localStorage.setItem(
-          "userData",
-          JSON.stringify({
-            token: response.token,
-          })
-        );
-        history.push("/");
-      } else if (response.message) {
-        setError(response.message);
-      }
-    }
+    //   if (response.token) {
+    //     user.setUserToken(response.token);
+    //     localStorage.setItem(
+    //       "userData",
+    //       JSON.stringify({
+    //         token: response.token,
+    //       })
+    //     );
+    //     history.push("/");
+    //   } else if (response.message) {
+    //     setError(response.message);
+    //   }
+    // }
   };
 
   const submitOnChangeHandler = () => {

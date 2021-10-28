@@ -1,0 +1,98 @@
+@import "../../../util/variables";
+
+.container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  padding: 50px;
+  background: #5252538e;
+
+  .modal {
+    background: #ffff;
+    border-radius: 6px;
+    padding: 50px;
+    padding-bottom: 20px;
+    margin: auto;
+    width: 700px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    h1 {
+      margin: 0;
+      text-align: center;
+    }
+
+    .nav {
+      text-align: center;
+
+      .nav-btn {
+        font-size: 16px;
+        padding: 10px 0;
+        width: 150px;
+        border-radius: 6px;
+        border-bottom: 2px solid $main-text-color;
+        color: $main-text-color;
+        font-weight: 500;
+        margin: 10px;
+      }
+    }
+
+    .form {
+      overflow-y: scroll;
+      input {
+        width: 100%;
+        font-family: "TT Norms", sans-serif;
+        margin: 10px 0;
+        height: 40px;
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #2a8bf2;
+        font-weight: 500;
+      }
+
+      .room {
+        .add-user-btn {
+          margin-top: 10px;
+          background: $main-text-color;
+          color: #ffff;
+          border-radius: 6px;
+          padding: 10px;
+        }
+
+        .users {
+          display: flex;
+          background: $main-text-color;
+          color: #fff;
+          padding: 10px;
+          width: fit-content;
+          padding: 10px;
+          margin: 10px 10px 10px 0;
+
+          button {
+            color: #fff;
+            font-size: 16px;
+            padding-left: 10px;
+          }
+        }
+      }
+
+      .submit {
+        display: block;
+        margin: 10px auto;
+        margin-bottom: 30px;
+        font-size: 18px;
+        font-weight: 500;
+        background: $button-background;
+        padding: 20px 30px;
+        color: #ffff;
+        border-radius: 6px;
+        box-shadow: $button-shadow;
+      }
+    }
+  }
+}

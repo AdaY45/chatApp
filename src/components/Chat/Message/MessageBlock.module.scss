@@ -7,6 +7,12 @@
   flex-direction: column-reverse;
 }
 
+@media screen and (max-width: 1200px) {
+  .container {
+    height: 78vh;
+  }
+}
+
 @media screen and (max-width: 900px) {
   .container {
     height: 78vh;
@@ -15,6 +21,6 @@
 
 @media screen and (max-width: 700px) {
   .container {
-    height: 72vh;
+    height: 70vh;
   }
 }

@@ -1,20 +1,29 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Chat from "../components/Chat/Chat";
 import Chats from "../components/Chats/Chats";
+import CreateChat from "../components/Chats/Search/CreateChat/CreateChat";
 import Header from "../components/Header/Header";
+import { SocketContextProvider } from "../context/socket-context";
+import { ChatContextProvider } from "../context/chat-context";
 import UIContext from "../context/ui-context";
 import styles from "./Dashboard.module.scss";
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const ui = useContext(UIContext);
   return (
-    <div className={styles.container}>
-      <Header />
+    <ChatContextProvider>
+      <SocketContextProvider>
+        <div className={styles.container}>
+          {ui.isOpenCreateChat && <CreateChat />}
 
-      {ui.isOpenChats && <Chats />}
+          <Header isReady={props.isReady}/>
 
-      {ui.isOpenChat && <Chat />}
-    </div>
+          {ui.isOpenChats && <Chats />}
+
+          {ui.isOpenChat && <Chat />}
+        </div>
+      </SocketContextProvider>
+    </ChatContextProvider>
   );
 };
 

@@ -22,7 +22,13 @@ const Chat = (props) => {
           </div>
         </div>
         <div className={`${styles.time} ${props.style ? "text-color" : ""}`}>
-          <div className="text-color">{user.message && user.message.room === chat.id ? msToDate(user.message.date) : msToDate(chat.time)}</div>
+          <div className="text-color">
+            {user.message && user.message.room === chat.id
+              ? msToDate(user.message.date)
+              : chat.time !== 0
+              ? msToDate(chat.time)
+              : ""}
+          </div>
         </div>
       </div>
       <div className={styles["message-block"]}>

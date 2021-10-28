@@ -66,7 +66,6 @@ const Message = (props) => {
         </div>
         <MoreButton
           userStyle={userStyle}
-          onSetMessages={props.onSetMessages}
           message={props.message}
           onSetMessage={props.onSetMessage}
         />

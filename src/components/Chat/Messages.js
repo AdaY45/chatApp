@@ -9,13 +9,9 @@ const Messages = (props) => {
   return (
     <div className={styles.chat}>
       <MessageBlock
-        messages={props.messages}
-        onSetMessages={props.onSetMessages}
         onSetMessage={setMessage}
       />
       <MessageInput
-        messages={props.messages}
-        onSetMessages={props.onSetMessages}
         message={message}
         onSetMessage={setMessage}
       />

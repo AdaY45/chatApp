@@ -1,26 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router";
+import useHttp from "../hooks/use-http";
+import UIContext from "./ui-context";
 
-const UserContext = React.createContext({
-  user: {},
-  email: "",
-  token: "",
-  chat: {},
-  image: "",
-  message: null,
-  messageId: null,
-  startMessages: 0,
-  setUserToken: (token) => {},
-  setUserInfo: (info) => {},
-  setChat: (chat) => {},
-  setImage: (image) => {},
-  setUserMassage: (message) => {},
-  setUserEmail: (email) => {},
-  setMessageId: (id) => {},
-  setStartM: (start) => {},
-  reduceCountMessages: () => {}
-});
+const UserContext = React.createContext({});
 
 export const UserContextProvider = (props) => {
+  const history = useHistory();
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [chat, setChat] = useState({});
@@ -28,18 +14,143 @@ export const UserContextProvider = (props) => {
   const [message, setMessage] = useState(null);
   const [email, setEmail] = useState("");
   const [messageId, setMessageId] = useState(null);
-  const [startMessages, setStartMessages] = useState(0);
+  const { errorMessage, sendRequest } = useHttp();
+  const ui = useContext(UIContext);
 
-  const setUserToken = (token) => {
-    setToken(token);
+  const login = async (email, password, setError) => {
+    const response = await sendRequest({
+      url: "http://localhost:3000/login",
+      method: "POST",
+      body: {
+        email,
+        password,
+      },
+    });
+
+    if (errorMessage) {
+      setError(errorMessage);
+    }
+
+    if (response.token) {
+      setToken(response.token);
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          token: response.token,
+        })
+      );
+      ui.setType("login");
+
+      history.push("/auth");
+    } else if (response.message) {
+      return response.message;
+    } else {
+      return response;
+    }
   };
 
-  const setUserInfo = (info) => {
-    setUser(info);
+  const register = async (email, setError) => {
+    const response = await sendRequest({
+      url: "http://localhost:3000/register",
+      method: "POST",
+      body: {
+        email,
+      },
+    });
+
+    if (errorMessage) {
+      setError(errorMessage);
+    }
+
+    console.log("token register: ", response.token);
+
+    if (response.token) {
+      setToken(response.token);
+      ui.setType("register");
+      localStorage.setItem(
+        "userData",
+        JSON.stringify({
+          token: response.token,
+        })
+      );
+
+      history.push("/auth");
+    } else if (response.message) {
+      setError(response.message);
+    } else {
+      setError(response);
+    }
   };
 
-  const addChat = (chat) => {
-    setChat(chat);
+  const authentification = async (secretKey, setError) => {
+    if (ui.type === "login") {
+      const response = await sendRequest({
+        url: "http://localhost:3000/login/secret",
+        method: "POST",
+        headers: {
+          Authorization: token,
+        },
+        body: {
+          secretKey,
+        },
+      });
+
+      if (response.token) {
+        setToken(response.token);
+        localStorage.setItem(
+          "userData",
+          JSON.stringify({
+            token: response.token,
+          })
+        );
+        history.push("/");
+      } else if (response.message) {
+        setError(response.message);
+      }
+    }
+    if (ui.type === "register") {
+      console.log("token auth: ", token);
+      const response = await sendRequest({
+        url: "http://localhost:3000/register/secret",
+        method: "POST",
+        headers: {
+          Authorization: token,
+        },
+        body: {
+          ...user,
+          secretKey,
+        },
+      });
+
+      if (response.token) {
+        setToken(response.token);
+        localStorage.setItem(
+          "userData",
+          JSON.stringify({
+            token: response.token,
+          })
+        );
+        history.push("/");
+      } else if (response.message) {
+        setError(response.message);
+      }
+    }
+  };
+
+  const findUser = async (setError) => {
+    console.log(token);
+    const response = await sendRequest({
+      url: `http://localhost:3000/find`,
+      headers: {
+        Authorization: token,
+      },
+    });
+    if (errorMessage) {
+      setError(errorMessage);
+    }
+    console.log("user", response);
+    setUser(response);
+    setEmail(response.email);
   };
 
   const addImage = (image) => {
@@ -58,38 +169,27 @@ export const UserContextProvider = (props) => {
     setMessageId(id);
   };
 
-  const setStartM = (start) => {
-    if (start > 0) {
-      setStartMessages(start);
-    } else {
-      setStartMessages(0);
-    }
-  };
-
-  const reduceCountMessages = () => {
-    setStartMessages((previousState) => previousState - 10 > 0 ? previousState - 10 : 0);
-  };
-
   return (
     <UserContext.Provider
       value={{
-        token: token,
-        setUserToken: setUserToken,
-        user: user,
-        setUserInfo: setUserInfo,
-        chat: chat,
-        setChat: addChat,
-        image: image,
+        token,
+        setToken,
+        login,
+        register,
+        authentification,
+        user,
+        setUser,
+        chat,
+        setChat,
+        image,
         setImage: addImage,
-        message: message,
-        setUserMassage: setUserMassage,
-        email: email,
-        setUserEmail: setUserEmail,
-        messageId: messageId,
+        message,
+        setUserMassage,
+        email,
+        setUserEmail,
+        messageId,
         setMessageId: addMessageId,
-        startMessages: startMessages,
-        setStartM: setStartM,
-        reduceCountMessages: reduceCountMessages,
+        findUser,
       }}
     >
       {props.children}

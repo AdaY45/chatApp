@@ -9,6 +9,7 @@ import Picker from "emoji-picker-react";
 import useSocket from "../../../hooks/use-socket";
 import UserContext from "../../../context/user-context";
 import UIContext from "../../../context/ui-context";
+import SocketContext from "../../../context/socket-context";
 import styles from "./MessageInput.module.scss";
 import FileIcon from "../../UI/Icons/Messages/FileIcon";
 
@@ -17,7 +18,8 @@ const MessageInput = (props) => {
   const [isOpenEmoji, setIsOpenEmoji] = useState(false);
   const user = useContext(UserContext);
   const ui = useContext(UIContext);
-  const { sendMessage, updateMessage } = useSocket(props.onSetMessages);
+  // const { sendMessage, updateMessage } = useSocket(props.onSetMessages);
+  const socket = useContext(SocketContext);
 
   const onEmojiClick = (event, emojiObject) => {
     ui.setIsEmojji(true);
@@ -47,10 +49,10 @@ const MessageInput = (props) => {
     setIsOpenEmoji(false);
 
     if (ui.isEdit) {
-      updateMessage(user.messageId, props.message);
+      socket.updateMessage(user.messageId, props.message);
       ui.setIsEdit(false);
     } else {
-      sendMessage(user.chat.id, props.message);
+      socket.sendMessage(user.chat.id, props.message);
     }
 
     props.onSetMessage("");

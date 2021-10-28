@@ -3,14 +3,16 @@ import MoreIcon from "../../UI/Icons/Messages/MoreIcon";
 import useSocket from "../../../hooks/use-socket";
 import UIContext from "../../../context/ui-context";
 import UserContext from "../../../context/user-context";
+import SocketContext from "../../../context/socket-context";
 import styles from "./MoreButton.module.scss";
 
 const MoreButton = (props) => {
   const ref = useRef();
   const ui = useContext(UIContext);
   const user = useContext(UserContext);
+ 
   const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const { deleteMessage } = useSocket(props.onSetMessages);
+  const socket = useContext(SocketContext);
 
   const onEditClickHandler = () => {
     setIsMoreOpen(false);
@@ -21,7 +23,7 @@ const MoreButton = (props) => {
 
   const onDeleteClickHandler = () => {
     setIsMoreOpen(false);
-    deleteMessage(props.message.id);
+    socket.deleteMessage(props.message.id);
   };
 
   useEffect(() => {

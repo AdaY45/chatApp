@@ -8,10 +8,10 @@ import Authentification from "./pages/Authentification";
 import "./App.css";
 import Dashboard from "./pages/Dashboard";
 import UserContext from "./context/user-context";
-import Chat from "./components/Chat/Chat";
 
 function App() {
   const [isReady, setIsReady] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
   // const { isLoading, error, sendRequest } = useHttp();
   const user = useContext(UserContext);
 
@@ -20,8 +20,7 @@ function App() {
       setIsReady(false);
       try {
         const data = JSON.parse(
-          localStorage.getItem("userData") ||
-            '{"token":null}'
+          localStorage.getItem("userData") || '{"token":null}'
         );
         // console.log("token: " + data.token)
         // if (data && data.token) {
@@ -52,7 +51,12 @@ function App() {
         //     setIsReady(true);
         //   }
         // }
-        user.setUserToken(data.token)
+        console.log("data.token: ",data.token);
+        user.setToken(data.token);
+        setIsReady(true);
+        if (data.token) {
+          setIsAuth(true);
+        }
       } catch (e) {
         setIsReady(false);
       }
@@ -61,8 +65,34 @@ function App() {
     getToken();
   }, [user]);
 
-    
-
+  // if (isAuth) {
+  //   return (
+  //     <Layout>
+  //       <Switch>
+  //         <Route path="/" exact>
+  //           <Dashboard />
+  //         </Route>
+  //       </Switch>
+  //     </Layout>
+  //   );
+  // } else {
+  //   return (
+  //     <Layout>
+  //       <Switch>
+  //         <Route path="/login" exact>
+  //           <Auth isSignUp={false} />
+  //         </Route>
+  //         <Route path="/register" exact>
+  //           <Auth isSignUp={true} />
+  //         </Route>
+  //         <Route path="/auth" exact>
+  //           <Authentification />
+  //         </Route>
+  //         <Redirect to={`/login`} />
+  //       </Switch>
+  //     </Layout>
+  //   );
+  // }
   return (
     <Layout>
       <Switch>
@@ -76,11 +106,11 @@ function App() {
           <Authentification />
         </Route>
         <Route path="/" exact>
-          <Dashboard />
+          <Dashboard isReady={isReady}/>
         </Route>
-        <Route path="/chat" exact>
+        {/* <Route path="/chat" exact>
           <Chat />
-        </Route>
+        </Route> */}
         <Redirect to={`/login`} />
       </Switch>
     </Layout>

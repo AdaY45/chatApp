@@ -7,27 +7,21 @@ import useHttp from "../../hooks/use-http";
 import Loader from "../UI/Loader/Loader";
 import Messages from "./Messages";
 import UserContext from "../../context/user-context";
+import ChatContext from "../../context/chat-context";
 
 const Chat = () => {
-  const [messages, setMessages] = useState([]);
   const [isReady, setIsReady] = useState(false);
-  const [amount, setAmount] = useState(0);
-  const { isLoading, errorMessage, sendRequest } = useHttp();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [amount, setAmount] = useState(10);
   const user = useContext(UserContext);
+  const chat = useContext(ChatContext);
 
   useEffect(() => {
     const getCount = async () => {
       setIsReady(false);
-      const count = await sendRequest({
-        url: `http://localhost:3000/chat-room/messages-count/${user.chat.id}`,
-        headers: {
-          Authorization: user.token,
-          "Content-Type": "application/json",
-        },
-      });
-      user.setStartM(count - 10);
-      setAmount(count - 10);
-      console.log("count: " + count);
+      const count = await chat.getMessagesCount();
+      chat.setStartMessages(count - 10);
       setIsReady(true);
     };
 
@@ -36,33 +30,20 @@ const Chat = () => {
 
   useEffect(() => {
     const getChats = async () => {
-      if (isReady) {
-        console.log("user.startMessages: " + user.startMessages);
-        const response = await sendRequest({
-          url: `http://localhost:3000/chat-room/${user.chat.id}/${
-            user.startMessages
-          }/${amount > 10 ? 10 : 10 + amount}`,
-          headers: {
-            Authorization: user.token,
-            "Content-Type": "application/json",
-          },
-        });
-
-        console.log("Chat: " + response);
-        if (!messages[0] || user.chat.id !== messages[0].room) {
-          setMessages(response);
-        } else{
-          setMessages((previousState) => response.concat(previousState));
-        }
+      if (isReady) {  
+        setAmount(chat.start >= 10 ? 10 : chat.start);
+        setIsLoading(true);
+        await chat.getMessages(chat.start, amount, setError);
+        setIsLoading(false)
       }
     };
 
     getChats();
-  }, [sendRequest, user.token, user.chat.id, user.startMessages, isReady]);
+  }, [chat.start, amount, isReady, user.chat.id]);
 
   return (
     <section className={styles.container}>
-      {errorMessage && <div className="error">Error</div>}
+      {error && <div className="error">{error}</div>}
       <div className={styles["message-hat"]}>
         <div className={styles["chat-info"]}>
           <img
@@ -91,7 +72,8 @@ const Chat = () => {
         </div>
       )}
 
-      <Messages messages={messages} onSetMessages={setMessages} />
+      {chat.messages.length === 0 && !isLoading && <div className={styles.empty}>No messages</div>}
+      <Messages />
     </section>
   );
 };

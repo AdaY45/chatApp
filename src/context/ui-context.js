@@ -1,17 +1,6 @@
 import React, { useState } from "react";
 
-const UIContext = React.createContext({
-  type: "",
-  isOpenChats: false,
-  isOpenChat: false,
-  isEmojii: false,
-  isEdit: false,
-  setType: (type) => {},
-  setIsOpenChats: (isOpenChats) => {},
-  setIsOpenChat: (isOpenChat) => {},
-  setIsEmojji: (isEmojii) => {},
-  setIsEdit: (edit) => {}
-});
+const UIContext = React.createContext({});
 
 export const UIContextProvider = (props) => {
   const [type, setType] = useState("");
@@ -19,6 +8,8 @@ export const UIContextProvider = (props) => {
   const [isOpenChat, setIsOpenChat] = useState(false);
   const [isEmojii, setIsEmojji] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [isCreateChat, setIsCreateChat] = useState(false);
+  const [loadChats, setLoadChats] = useState(true);
 
   const setTypeForAuth = (type) => {
     setType(type);
@@ -38,21 +29,33 @@ export const UIContextProvider = (props) => {
 
   const setEdit = (isEdit) => {
     setIsEdit(isEdit);
-  }
+  };
+
+  const setIsOpenCreateChat = () => {
+    setIsCreateChat((previousState) => !previousState);
+  };
+
+  const setIsLoadChats = (val) => {
+    setLoadChats(val);
+  };
 
   return (
     <UIContext.Provider
       value={{
-        type: type,
+        type,
         setType: setTypeForAuth,
-        isOpenChats: isOpenChats,
+        isOpenChats,
         setIsOpenChats: setOpenChats,
-        isOpenChat: isOpenChat,
+        isOpenChat,
         setIsOpenChat: setOpenChat,
-        isEmojii: isEmojii,
+        isEmojii,
         setIsEmojji: addIsEmojii,
         isEdit: isEdit,
-        setIsEdit: setEdit
+        setIsEdit: setEdit,
+        isOpenCreateChat: isCreateChat,
+        setIsOpenCreateChat,
+        loadChats,
+        setLoadChats: setIsLoadChats,
       }}
     >
       {props.children}

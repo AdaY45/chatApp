@@ -4,20 +4,16 @@ import Input from "../UI/Input/Input";
 import Button from "../UI/Button/Button";
 import { Fragment } from "react";
 import useInput from "../../hooks/use-input";
-import useHttp from "../../hooks/use-http";
 import  UserContext from "../../context/user-context";
 import UIContext from "../../context/ui-context";
 import styles from "./SignUp.module.scss";
 import Loader from "../UI/Loader/Loader";
 
 const SignUp = () => {
-  const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
   const user = useContext(UserContext);
   const ui = useContext(UIContext);
   const [error, setError] = useState(false);
-  const { isLoading, errorMessage, sendRequest } = useHttp();
-  const [emailExists, setEmailExists] = useState(false);
-  const [userExists, setUserExists] = useState(false);
   const {
     value: firstName,
     isValid: firstNameIsValid,
@@ -64,33 +60,10 @@ const SignUp = () => {
       return;
     }
 
-    const response = await sendRequest({
-      url: "http://localhost:3000/register",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: {
-        email
-      },
-    });
-
-    if(response.token) {
-      user.setUserToken(response);
-      ui.setType("register");
-      localStorage.setItem(
-        "userData",
-        JSON.stringify({
-          token: response.token,
-        })
-      );
-  
-      history.push('/auth');
-    } else if(response.message) {
-      setError(response.message);
-    } else {
-      setError(response);
-    }
+    setIsLoading(true);
+    user.setUser({email, firstName, lastName, password});
+    user.register(email, setError);
+    setIsLoading(false);
   };
 
   const emailInputStyles = emailHasErrors ? "invalid" : "";
@@ -102,14 +75,9 @@ const SignUp = () => {
 
   return (
     <Fragment>
-      {userExists && <p className="error">User already exists</p>}
       {error && <div className="error">{error}</div>}
       {isLoading && <Loader />}
-      {errorMessage && <div className="error">{errorMessage}</div>}
       <form className={styles.form} onSubmit={onSubmit}>
-        {emailExists && (
-          <div className="error">User with such email already exists.</div>
-        )}
         {firstNameHasErrors && (
           <p className="error">First Name should not be empty</p>
         )}

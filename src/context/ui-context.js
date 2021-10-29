@@ -50,7 +50,7 @@ export const UIContextProvider = (props) => {
         setIsOpenChat: setOpenChat,
         isEmojii,
         setIsEmojji: addIsEmojii,
-        isEdit: isEdit,
+        isEdit,
         setIsEdit: setEdit,
         isOpenCreateChat: isCreateChat,
         setIsOpenCreateChat,

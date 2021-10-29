@@ -63,6 +63,10 @@ export const SocketContextProvider = (props) => {
       ui.setLoadChats(true);
     });
 
+    socket.on("server-create-room", function (data) {
+      console.log("Socket create room: " + data);
+    });
+
     return () => {
       socket.disconnect();
     };
@@ -76,8 +80,9 @@ export const SocketContextProvider = (props) => {
     setChats(chats);
   };
 
-  const sendMessage = (id, text) => {
-    socket.emit("server-send-message", { room: id, message: text });
+  const sendMessage = (id, message, file) => {
+    console.log("socket: ", { room: id, message, file })
+    socket.emit("server-send-message", { room: id, message, file});
   };
 
   const updateMessage = (id, text) => {
@@ -89,7 +94,8 @@ export const SocketContextProvider = (props) => {
   };
 
   const createChat = (users, photo, name) => {
-    socket.emit("server-create-room", { users, photo, name });
+    console.log("create",{ users, photo, name })
+    socket.emit("server-create-room", { users, photo: "fsdfsdf.jpeg", name });
   };
 
   const createPersonal = (users) => {

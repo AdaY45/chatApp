@@ -28,18 +28,20 @@ const Chat = () => {
     getCount();
   }, []);
 
+  console.log(user.chat.id)
+
   useEffect(() => {
     const getChats = async () => {
       if (isReady) {  
         setAmount(chat.start >= 10 ? 10 : chat.start);
         setIsLoading(true);
-        await chat.getMessages(chat.start, amount, setError);
-        setIsLoading(false)
+        await chat.getMessages(user.chat.id, chat.start, amount, setError);
+        setIsLoading(false);
       }
     };
 
     getChats();
-  }, [chat.start, amount, isReady, user.chat.id]);
+  }, [chat.start, isReady, user.chat.id]);
 
   return (
     <section className={styles.container}>

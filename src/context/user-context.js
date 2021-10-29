@@ -3,6 +3,8 @@ import { useHistory } from "react-router";
 import useHttp from "../hooks/use-http";
 import UIContext from "./ui-context";
 
+const URL = "http://localhost:3000/";
+
 const UserContext = React.createContext({});
 
 export const UserContextProvider = (props) => {
@@ -19,7 +21,7 @@ export const UserContextProvider = (props) => {
 
   const login = async (email, password, setError) => {
     const response = await sendRequest({
-      url: "http://localhost:3000/login",
+      url: `${URL}login`,
       method: "POST",
       body: {
         email,
@@ -51,7 +53,7 @@ export const UserContextProvider = (props) => {
 
   const register = async (email, setError) => {
     const response = await sendRequest({
-      url: "http://localhost:3000/register",
+      url: `${URL}register`,
       method: "POST",
       body: {
         email,
@@ -85,7 +87,7 @@ export const UserContextProvider = (props) => {
   const authentification = async (secretKey, setError) => {
     if (ui.type === "login") {
       const response = await sendRequest({
-        url: "http://localhost:3000/login/secret",
+        url: `${URL}login/secret`,
         method: "POST",
         headers: {
           Authorization: token,
@@ -111,7 +113,7 @@ export const UserContextProvider = (props) => {
     if (ui.type === "register") {
       console.log("token auth: ", token);
       const response = await sendRequest({
-        url: "http://localhost:3000/register/secret",
+        url: `${URL}register/secret`,
         method: "POST",
         headers: {
           Authorization: token,
@@ -140,7 +142,7 @@ export const UserContextProvider = (props) => {
   const findUser = async (setError) => {
     console.log(token);
     const response = await sendRequest({
-      url: `http://localhost:3000/find`,
+      url: `${URL}find`,
       headers: {
         Authorization: token,
       },

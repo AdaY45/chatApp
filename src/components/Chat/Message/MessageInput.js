@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import VideoIcon from "../../UI/Icons/Messages/VideoIcon";
 import PhotoIcon from "../../UI/Icons/Messages/PhotoIcon";
 import PlusIcon from "../../UI/Icons/Messages/PlusIcon";
@@ -6,7 +6,6 @@ import SmileIcon from "../../UI/Icons/Messages/SmileIcon";
 import SendIcon from "../../UI/Icons/Messages/SendIcon";
 import OpenFile from "../../UI/Button/OpenFile";
 import Picker from "emoji-picker-react";
-import useSocket from "../../../hooks/use-socket";
 import UserContext from "../../../context/user-context";
 import UIContext from "../../../context/ui-context";
 import SocketContext from "../../../context/socket-context";
@@ -16,10 +15,14 @@ import FileIcon from "../../UI/Icons/Messages/FileIcon";
 const MessageInput = (props) => {
   const [showNav, setShowNav] = useState(false);
   const [isOpenEmoji, setIsOpenEmoji] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const user = useContext(UserContext);
   const ui = useContext(UIContext);
-  // const { sendMessage, updateMessage } = useSocket(props.onSetMessages);
   const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    setSelectedFile(null);
+  }, [user.chat.id]);
 
   const onEmojiClick = (event, emojiObject) => {
     ui.setIsEmojji(true);
@@ -44,35 +47,63 @@ const MessageInput = (props) => {
     props.onSetMessage(event.target.value);
   };
 
+  const onChangeFile = (e) => {
+    setSelectedFile(e.target.files[0]);
+    setShowNav(false);
+  };
+
   const submitHandler = async (event) => {
     event.preventDefault();
     setIsOpenEmoji(false);
+
+    const file = selectedFile
+      ? {
+          originalName: selectedFile.name,
+          size: selectedFile.size,
+          buffer: selectedFile,
+        }
+      : undefined;
+
+    console.log("file when submit", file);
 
     if (ui.isEdit) {
       socket.updateMessage(user.messageId, props.message);
       ui.setIsEdit(false);
     } else {
-      socket.sendMessage(user.chat.id, props.message);
+      socket.sendMessage(user.chat.id, props.message, file);
     }
 
     props.onSetMessage("");
+    setSelectedFile(null);
   };
 
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={submitHandler}>
+        {selectedFile && <div className={styles.file}>
+          <FileIcon isFile={true} />
+          <div className={styles.name}>{selectedFile.name}</div>
+          </div>}
         <div className={styles["plus-nav"]}>
           {showNav && (
             <div className={styles.nav}>
-              <OpenFile id="videoupload">
+              <OpenFile
+                id="videoupload"
+                accept="video/mp4,video/x-m4v,video/*"
+                onChange={onChangeFile}
+              >
                 <VideoIcon />
               </OpenFile>
 
-              <OpenFile id="imgupload">
+              <OpenFile
+                id="imgupload"
+                accept=".jpg, .jpeg, .png"
+                onChange={onChangeFile}
+              >
                 <PhotoIcon />
               </OpenFile>
 
-              <OpenFile id="fileupload">
+              <OpenFile id="fileupload" onChange={onChangeFile}>
                 <FileIcon />
               </OpenFile>
             </div>

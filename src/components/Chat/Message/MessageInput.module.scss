@@ -1,3 +1,5 @@
+@import "../../util/variables";
+
 .container {
   bottom: 0;
   position: absolute;
@@ -19,6 +21,19 @@
         position: absolute;
         bottom: 80%;
         left: -1%;
+      }
+    }
+
+    .file {
+      position: absolute;
+      top: 0;
+      left: 10%;
+      display: flex;
+      color: $active-color;
+      width: 100%;
+      
+      .name {
+        padding: 2px 5px;
       }
     }
 

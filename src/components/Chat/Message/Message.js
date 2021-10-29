@@ -1,4 +1,3 @@
-import { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { formatBytes } from "../../util/helpers";
 import CheckedIcon from "../../UI/Icons/Messages/CheckedIcon";
@@ -9,11 +8,9 @@ import MoreButton from "./MoreButton";
 const Message = (props) => {
   const { message } = props;
   const userStyle = message.type === "user";
-  const isImage =
-    message.file &&
-    (message.file.name.includes("jpeg") ||
-      message.file.name.includes("png") ||
-      message.file.name.includes("jpg"));
+  const fileName = message.file && message.file.name.split("$")[1];
+  const formats = ["jpeg", "png", "jpg", "JPEG", "JPG", "PNG"];
+  const isImage = message.file && formats.filter(el => el === fileName.split(".")[1]).length > 0;
 
   return (
     <div className={styles.container}>
@@ -40,7 +37,7 @@ const Message = (props) => {
           <div className={styles.text}>{message.text}</div>
           {isImage && (
             <img
-              src={"http://localhost:3000/images/" + message.file.name}
+              src={"http://localhost:3000/files/" + message.file.name}
               alt="MessagePhoto"
               className={styles.photo}
             />
@@ -49,18 +46,26 @@ const Message = (props) => {
             <NavLink
               to={message.file.href}
               target="_blank"
-              className={styles.file}
+              className={`${styles.file} ${userStyle ? styles.user : ""}`}
               download
             >
               <div className={styles["file-icon"]}>
-                <FileIcon />
+                <FileIcon isFile={userStyle} />
               </div>
               <div className={styles["file-info"]}>
-                <div className={styles.name}>{message.file.name}</div>
-                <div className={styles.size}>
-                  {formatBytes(message.file.size)}
-                </div>
+                <div className={styles.name}>{fileName}</div>
+
+                {!userStyle && (
+                  <div className={styles.size}>
+                    {formatBytes(message.file.size)}
+                  </div>
+                )}
               </div>
+              {userStyle && (
+                <div className={styles.size}>
+                  ({formatBytes(message.file.size)})
+                </div>
+              )}
             </NavLink>
           )}
         </div>

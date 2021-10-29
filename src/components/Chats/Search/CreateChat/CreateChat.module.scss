@@ -51,8 +51,52 @@
         font-size: 16px;
         padding: 10px;
         border-radius: 6px;
-        border: 1px solid #2a8bf2;
+        border: 1px solid $active-color;
         font-weight: 500;
+      }
+
+      .photo {
+        border: 1px solid $active-color;
+        border-radius: 6px;
+        width: auto;
+        cursor: pointer;
+
+        .info {
+          display: flex;
+          width: auto;
+          height: 40px;
+          padding: 10px;
+
+          .text {
+            margin-left: 10px;
+          }
+          * {
+            margin: auto 0;
+            color: $input-color;
+          }
+        }
+
+        input {
+          opacity: 0;
+          position: absolute;
+          z-index: 3;
+          cursor: pointer;
+          width: 40px;
+          height: 40px;
+          padding: 0;
+          margin: 0;
+        }
+
+        .label {
+          color: $input-color;
+          display: flex;
+          height: 40px;
+          cursor: pointer;
+
+          .text {
+            margin: auto 10px;
+          }
+        }
       }
 
       .room {

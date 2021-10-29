@@ -1,7 +1,7 @@
 @import "../../util/variables";
 
 .container {
-  padding: 20px 30px;  
+  padding: 20px 30px;
 
   .message {
     display: flex;
@@ -66,6 +66,30 @@
           }
         }
       }
+      .user {
+        color: #2a8bf2;
+        flex-direction: row-reverse;
+        justify-content: center;
+        font-weight: 500;
+        gap: 5px;
+
+        .file-info {
+          .name {
+            font-weight: 500;
+            text-align: right;
+          }
+        }
+
+        .size {
+          font-size: 16px;
+          text-align: center;
+        }
+
+        .file-icon {
+          background: rgba(255, 255, 255, 0.25);
+          padding: 0;
+        }
+      }
     }
 
     .owner {
@@ -76,8 +100,6 @@
       color: $input-color;
       border-radius: 10px 10px 0 10px;
     }
-
-    
   }
 
   .owner {

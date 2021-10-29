@@ -2,6 +2,8 @@ import { useContext, useState, createContext } from "react";
 import UserContext from "../context/user-context";
 import useHttp from "../hooks/use-http";
 
+const URL = "http://localhost:3000/";
+
 const ChatContext = createContext({});
 
 export const ChatContextProvider = (props) => {
@@ -12,8 +14,9 @@ export const ChatContextProvider = (props) => {
   const { errorMessage, sendRequest } = useHttp();
 
   const getChats = async (setError) => {
+    console.log("env", process.env.REACT_APP_URL)
     const response = await sendRequest({
-      url: `http://localhost:3000/chat-list/0/0`,
+      url: `${process.env.REACT_APP_URL}chat-list/0/0`,
       headers: {
         Authorization: user.token,
       },
@@ -25,33 +28,30 @@ export const ChatContextProvider = (props) => {
   };
 
   const getMessagesCount = async () => {
-    console.log("user.chat.id context: ", user.chat.id);
     const count = await sendRequest({
-      url: `http://localhost:3000/chat-room/messages-count/${user.chat.id}`,
+      url: `${URL}chat-room/messages-count/${user.chat.id}`,
       headers: {
         Authorization: user.token,
       },
     });
-    console.log(count);
 
     return count;
   };
 
-  const getMessages = async (start, amount, setError) => {
+  const getMessages = async (id, start, amount, setError) => {
     const response = await sendRequest({
-      url: `http://localhost:3000/chat-room/${user.chat.id}/${start}/${amount}`,
+      url: `${URL}chat-room/${id}/${start}/${amount}`,
       headers: {
         Authorization: user.token,
       },
     });
+
+    console.log("messages:",response)
 
     if (errorMessage) {
       setError(errorMessage);
     }
     if (!messages[0] || user.chat.id !== messages[0].room) {
-      console.log("user.chat.id", user.chat.id);
-      console.log("messages[0]", messages[0]);
-      console.log("response[0]", response[0]);
       setMessages(
         response.map((el) => {
           return { ...el, room: user.chat.id };
@@ -69,7 +69,6 @@ export const ChatContextProvider = (props) => {
   };
 
   const setStartMessages = (start) => {
-    console.log(start);
     if (start > 0) {
       setStart(start);
     } else {
@@ -78,7 +77,7 @@ export const ChatContextProvider = (props) => {
   };
 
   const reduceCountMessages = () => {
-    setStartMessages((previousState) =>
+    setStart((previousState) =>
       previousState - 10 > 0 ? previousState - 10 : 0
     );
   };

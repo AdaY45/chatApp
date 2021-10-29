@@ -10,9 +10,8 @@ const MessageBlock = (props) => {
     console.log("e.target.scrollHeight + e.target.scrollTop", Math.ceil(e.target.scrollHeight + e.target.scrollTop))
     console.log("e.target.clientHeight", e.target.clientHeight)
     const bottom =
-      Math.ceil(e.target.scrollHeight + e.target.scrollTop) ===
-      e.target.clientHeight;
-    if (bottom < 560) {
+      Math.ceil(e.target.scrollHeight + e.target.scrollTop) < 552;
+    if (bottom) {
       chat.reduceCountMessages();
     }
   };

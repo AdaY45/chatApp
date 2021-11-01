@@ -39,6 +39,12 @@
       display: flex;
       gap: 20px;
 
+      .back {
+        font-size: 16px;
+        font-weight: 500;
+        color: $main-text-color;
+      }
+
       .profile-img {
         width: 50px;
         height: 50px;

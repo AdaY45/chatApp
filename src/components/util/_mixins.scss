@@ -18,7 +18,17 @@
     .header {
       width: $width;
       .profile {
-        display: none;
+        padding: 10px;
+        padding-top: 20px;
+
+        .text {
+          display: none;
+        }
+
+        .image {
+          width: 30px;
+          height: 30px;
+        }
       }
 
       .logout {

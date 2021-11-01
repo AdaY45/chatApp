@@ -100,6 +100,10 @@
       }
 
       .room {
+        .invalid {
+          border-color: red;
+        }
+
         .add-user-btn {
           margin-top: 10px;
           background: $main-text-color;

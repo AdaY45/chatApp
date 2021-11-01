@@ -20,7 +20,7 @@ const Chats = () => {
   const windowDimensions = useWindowDimensions();
 
   useEffect(() => {
-    const getChats = async() => {
+    const getChats = async () => {
       if (ui.loadChats) {
         setIsLoading(true);
         chats.getChats(setError);
@@ -31,6 +31,8 @@ const Chats = () => {
 
     getChats();
   }, [ui.loadChats]);
+
+  console.log("chats", chats.chats);
 
   return (
     <section className={styles.chats}>
@@ -71,7 +73,7 @@ const Chats = () => {
             <Chat
               key={el.id}
               chat={el}
-              isFile={el.hasOwnProperty("file")}
+              isFile={el.hasOwnProperty("file") && el.file !== null}
               style={isClicked && el.id === user.chat.id ? "active" : ""}
             />
           </button>

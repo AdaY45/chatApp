@@ -1,6 +1,5 @@
 import SearchIcon from "../../UI/Icons/Chats/SearchIcon";
 import Filter from "../Filter/Filter";
-import Input from "../../UI/Input/Input";
 import styles from "./Search.module.scss";
 
 const Search = () => {

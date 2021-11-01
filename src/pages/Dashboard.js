@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Chat from "../components/Chat/Chat";
 import Chats from "../components/Chats/Chats";
 import CreateChat from "../components/Chats/Search/CreateChat/CreateChat";

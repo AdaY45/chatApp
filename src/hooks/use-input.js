@@ -21,6 +21,7 @@ const useInput = (validationFunc, isEdit) => {
     hasErrors,
     valueChangeHandler,
     inputBlurHandler,
+    setValue: setEnteredValue
   };
 };
 

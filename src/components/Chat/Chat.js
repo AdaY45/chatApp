@@ -3,11 +3,12 @@ import { msToDate } from "../util/helpers";
 import AttachIcon from "../UI/Icons/Messages/AttachIcon";
 import MoreIcon from "../UI/Icons/Messages/MoreIcon";
 import styles from "./Chat.module.scss";
-import useHttp from "../../hooks/use-http";
 import Loader from "../UI/Loader/Loader";
 import Messages from "./Messages";
 import UserContext from "../../context/user-context";
 import ChatContext from "../../context/chat-context";
+import UIContext from "../../context/ui-context";
+import useWindowDimensions from "../../hooks/use-dimensions";
 
 const Chat = () => {
   const [isReady, setIsReady] = useState(false);
@@ -16,6 +17,8 @@ const Chat = () => {
   const [amount, setAmount] = useState(10);
   const user = useContext(UserContext);
   const chat = useContext(ChatContext);
+  const ui = useContext(UIContext);
+  const windowDimensions = useWindowDimensions();
 
   useEffect(() => {
     const getCount = async () => {
@@ -28,11 +31,9 @@ const Chat = () => {
     getCount();
   }, []);
 
-  console.log(user.chat.id)
-
   useEffect(() => {
     const getChats = async () => {
-      if (isReady) {  
+      if (isReady) {
         setAmount(chat.start >= 10 ? 10 : chat.start);
         setIsLoading(true);
         await chat.getMessages(user.chat.id, chat.start, amount, setError);
@@ -43,11 +44,22 @@ const Chat = () => {
     getChats();
   }, [chat.start, isReady, user.chat.id]);
 
+  const exitHandler = () => {
+    chat.addMessages([]);
+    ui.setIsOpenChat(false);
+    ui.setIsOpenChats(true);
+  };
+
   return (
     <section className={styles.container}>
       {error && <div className="error">{error}</div>}
       <div className={styles["message-hat"]}>
         <div className={styles["chat-info"]}>
+          {windowDimensions.width < 1100 && (
+            <button onClick={exitHandler} className={styles.back}>
+              Go back
+            </button>
+          )}
           <img
             src={user.chat.photo}
             className={styles["profile-img"]}
@@ -55,7 +67,7 @@ const Chat = () => {
           />
           <div className={styles["profile-info"]}>
             <div className="name">{user.chat.name}</div>
-            <div className="online">{msToDate(user.chat.time)}</div>
+            <div className="online">{user.chat.time === null ? "" : msToDate(user.chat.time)}</div>
           </div>
         </div>
         <div className={styles.nav}>
@@ -74,7 +86,9 @@ const Chat = () => {
         </div>
       )}
 
-      {chat.messages.length === 0 && !isLoading && <div className={styles.empty}>No messages</div>}
+      {chat.messages.length === 0 && !isLoading && (
+        <div className={styles.empty}>No messages</div>
+      )}
       <Messages />
     </section>
   );

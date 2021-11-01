@@ -64,8 +64,6 @@ const MessageInput = (props) => {
         }
       : undefined;
 
-    console.log("file when submit", file);
-
     if (ui.isEdit) {
       socket.updateMessage(user.messageId, props.message);
       ui.setIsEdit(false);

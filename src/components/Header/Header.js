@@ -1,9 +1,7 @@
 import { useEffect, useContext, useState } from "react";
 import { useHistory } from "react-router";
-import img from "../../images/profile-image.png";
 import DownIcon from "../UI/Icons/Chats/DownIcon";
 import Navigation from "./Navigation/Navigation";
-import useHttp from "../../hooks/use-http";
 import UserContext from "../../context/user-context";
 import styles from "./Header.module.scss";
 import LogoutIcon from "../UI/Icons/Header/LogoutIcon";
@@ -37,6 +35,7 @@ const Header = (props) => {
     <header className={styles.header}>
       {isReady ? (
         <div className={styles["profile"]}>
+          {error && <div className="error">{error}</div>}
           <img
             src={`http://localhost:3000/images/${user.user.photo}`}
             alt="profileImg"

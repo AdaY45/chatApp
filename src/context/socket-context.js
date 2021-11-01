@@ -26,7 +26,7 @@ export const SocketContextProvider = (props) => {
     });
 
     socket.on("client-message", function (data) {
-      console.log("Socket message: " + data.date);
+      console.log("Socket message: " + data.file);
       chat.addMessages((previousState) => [
         ...previousState,
         {
@@ -58,13 +58,21 @@ export const SocketContextProvider = (props) => {
       );
     });
 
+    socket.on("client-join", function (data) {
+      console.log("Client join: " + data);
+    });
+
+    socket.on("client-leave", function (data) {
+      console.log("Client leave: " + data);
+    });
+
     socket.on("client-create-room", function (data) {
       console.log("Socket create room: " + data.message);
       ui.setLoadChats(true);
     });
 
-    socket.on("server-create-room", function (data) {
-      console.log("Socket create room: " + data);
+    socket.on("client-error", function (data) {
+      console.log("Client error: " + data);
     });
 
     return () => {
@@ -95,7 +103,7 @@ export const SocketContextProvider = (props) => {
 
   const createChat = (users, photo, name) => {
     console.log("create",{ users, photo, name })
-    socket.emit("server-create-room", { users, photo: "fsdfsdf.jpeg", name });
+    socket.emit("server-create-room", { users, photo, name });
   };
 
   const createPersonal = (users) => {

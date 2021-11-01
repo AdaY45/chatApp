@@ -14,7 +14,6 @@ export const ChatContextProvider = (props) => {
   const { errorMessage, sendRequest } = useHttp();
 
   const getChats = async (setError) => {
-    console.log("env", process.env.REACT_APP_URL)
     const response = await sendRequest({
       url: `${process.env.REACT_APP_URL}chat-list/0/0`,
       headers: {
@@ -29,7 +28,7 @@ export const ChatContextProvider = (props) => {
 
   const getMessagesCount = async () => {
     const count = await sendRequest({
-      url: `${URL}chat-room/messages-count/${user.chat.id}`,
+      url: `${process.env.REACT_APP_URL}chat-room/messages-count/${user.chat.id}`,
       headers: {
         Authorization: user.token,
       },
@@ -40,13 +39,11 @@ export const ChatContextProvider = (props) => {
 
   const getMessages = async (id, start, amount, setError) => {
     const response = await sendRequest({
-      url: `${URL}chat-room/${id}/${start}/${amount}`,
+      url: `${process.env.REACT_APP_URL}chat-room/${id}/${start}/${amount}`,
       headers: {
         Authorization: user.token,
       },
     });
-
-    console.log("messages:",response)
 
     if (errorMessage) {
       setError(errorMessage);

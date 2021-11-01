@@ -3,8 +3,6 @@ import { useHistory } from "react-router";
 import useHttp from "../hooks/use-http";
 import UIContext from "./ui-context";
 
-const URL = "http://localhost:3000/";
-
 const UserContext = React.createContext({});
 
 export const UserContextProvider = (props) => {
@@ -21,7 +19,7 @@ export const UserContextProvider = (props) => {
 
   const login = async (email, password, setError) => {
     const response = await sendRequest({
-      url: `${URL}login`,
+      url: `${process.env.REACT_APP_URL}login`,
       method: "POST",
       body: {
         email,
@@ -35,12 +33,12 @@ export const UserContextProvider = (props) => {
 
     if (response.token) {
       setToken(response.token);
-      localStorage.setItem(
-        "userData",
-        JSON.stringify({
-          token: response.token,
-        })
-      );
+      // localStorage.setItem(
+      //   "userData",
+      //   JSON.stringify({
+      //     token: response.token,
+      //   })
+      // );
       ui.setType("login");
 
       history.push("/auth");
@@ -53,7 +51,7 @@ export const UserContextProvider = (props) => {
 
   const register = async (email, setError) => {
     const response = await sendRequest({
-      url: `${URL}register`,
+      url: `${process.env.REACT_APP_URL}register`,
       method: "POST",
       body: {
         email,
@@ -69,12 +67,12 @@ export const UserContextProvider = (props) => {
     if (response.token) {
       setToken(response.token);
       ui.setType("register");
-      localStorage.setItem(
-        "userData",
-        JSON.stringify({
-          token: response.token,
-        })
-      );
+      // localStorage.setItem(
+      //   "userData",
+      //   JSON.stringify({
+      //     token: response.token,
+      //   })
+      // );
 
       history.push("/auth");
     } else if (response.message) {
@@ -85,9 +83,10 @@ export const UserContextProvider = (props) => {
   };
 
   const authentification = async (secretKey, setError) => {
+    console.log("token",token);
     if (ui.type === "login") {
       const response = await sendRequest({
-        url: `${URL}login/secret`,
+        url: `${process.env.REACT_APP_URL}login/secret`,
         method: "POST",
         headers: {
           Authorization: token,
@@ -113,7 +112,7 @@ export const UserContextProvider = (props) => {
     if (ui.type === "register") {
       console.log("token auth: ", token);
       const response = await sendRequest({
-        url: `${URL}register/secret`,
+        url: `${process.env.REACT_APP_URL}register/secret`,
         method: "POST",
         headers: {
           Authorization: token,
@@ -142,7 +141,7 @@ export const UserContextProvider = (props) => {
   const findUser = async (setError) => {
     console.log(token);
     const response = await sendRequest({
-      url: `${URL}find`,
+      url: `${process.env.REACT_APP_URL}find`,
       headers: {
         Authorization: token,
       },

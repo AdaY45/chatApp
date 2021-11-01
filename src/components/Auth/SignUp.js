@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import { useHistory } from "react-router";
 import Input from "../UI/Input/Input";
 import Button from "../UI/Button/Button";
 import { Fragment } from "react";
@@ -12,7 +11,6 @@ import Loader from "../UI/Loader/Loader";
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const user = useContext(UserContext);
-  const ui = useContext(UIContext);
   const [error, setError] = useState(false);
   const {
     value: firstName,

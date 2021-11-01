@@ -1,10 +1,8 @@
-import { useState, useContext, useRef } from "react";
+import { useState, useContext } from "react";
 import UIContext from "../../../../context/ui-context";
 import useInput from "../../../../hooks/use-input";
-import useSocket from "../../../../hooks/use-socket";
 import UserContext from "../../../../context/user-context";
 import SocketContext from "../../../../context/socket-context";
-import OpenFile from "../../../UI/Button/OpenFile";
 import PhotoIcon from "../../../UI/Icons/Messages/PhotoIcon";
 import styles from "./CreateChat.module.scss";
 
@@ -31,6 +29,7 @@ const CreateChat = () => {
     hasErrors: emailHasErrors,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
+    setValue: setEmail,
   } = useInput((value) => /\S+@\S+\.\S+/.test(value));
 
   const onChangeFile = (e) => {
@@ -43,20 +42,25 @@ const CreateChat = () => {
     if (type === "room") {
       if (!selectedFile) {
         setError("Choose the photo");
-      }
-      if (!emailIsValid && !nameIsValid && !selectedFile) {
         return;
       }
-      console.log(selectedFile);
-      const file = {
+      if (!nameIsValid && !selectedFile) {
+        return;
+      }
+      console.log("selectedFile",selectedFile);
+
+      const formData = new FormData();
+      formData.append("photo", selectedFile)
+
+      const photo = {
         originalName: selectedFile.name,
         size: selectedFile.size,
-        buffer: selectedFile,
-      };
+        buffer: formData.get("photo"),
+      };  
 
-      console.log("file.buffer",file.buffer)
+      console.log("createChat",{ users: users.concat(user.email), photo, name})
 
-      socket.createChat(users.concat(user.email), file, name);
+      socket.createChat(users.concat(user.email), photo, name);
     } else if (type === "personal") {
       if (!emailIsValid) {
         return;
@@ -66,9 +70,10 @@ const CreateChat = () => {
     }
 
     ui.setIsOpenCreateChat();
+    setSelectedFile(null);
   };
 
-  console.log(users);
+  const nameInputStyles = nameHasErrors ? styles.invalid : "";
 
   return (
     <section
@@ -78,7 +83,6 @@ const CreateChat = () => {
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <h1 className="main-text">Create New Chat</h1>
         <div className={styles.create}>
-          {error && <div className="error">{error}</div>}
           <div className={styles.nav}>
             <button
               className={styles["nav-btn"]}
@@ -94,6 +98,7 @@ const CreateChat = () => {
             </button>
           </div>
           <div className={styles["form-container"]}>
+            {error && <div className="error">{error}</div>}
             <form className={styles.form} onSubmit={submitHandler}>
               {type === "room" && (
                 <div className={styles.room}>
@@ -105,6 +110,7 @@ const CreateChat = () => {
                     placeholder="Name"
                     onChange={nameChangeHandler}
                     onBlur={nameBlurHandler}
+                    className={nameInputStyles}
                   />
                   <div className={styles.photo}>
                     {!selectedFile ? (
@@ -132,7 +138,7 @@ const CreateChat = () => {
                     )}
                   </div>
                   {users.map((el) => (
-                    <div className={styles.users}>
+                    <div key={el} className={styles.users}>
                       <div className={styles.user}>{el}</div>
                       <button
                         onClick={() =>
@@ -143,9 +149,6 @@ const CreateChat = () => {
                       </button>
                     </div>
                   ))}
-                  {emailHasErrors && (
-                    <div className="error">Email is not valid</div>
-                  )}
                   <input
                     type="text"
                     placeholder="User email"
@@ -157,6 +160,7 @@ const CreateChat = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       setUsers((previousState) => previousState.concat(email));
+                      setEmail("");
                     }}
                     className={styles["add-user-btn"]}
                   >

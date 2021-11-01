@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import MoreIcon from "../../UI/Icons/Messages/MoreIcon";
-import useSocket from "../../../hooks/use-socket";
 import UIContext from "../../../context/ui-context";
 import UserContext from "../../../context/user-context";
 import SocketContext from "../../../context/socket-context";

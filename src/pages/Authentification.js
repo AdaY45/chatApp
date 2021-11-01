@@ -1,7 +1,6 @@
 import { useState, useRef, useContext, useEffect } from "react";
 import { useHistory } from "react-router";
 import Input from "../components/UI/Input/Input";
-import useHttp from "../hooks/use-http";
 import UIContext from "../context/ui-context";
 import UserContext from "../context/user-context";
 import styles from "./Authentification.module.scss";
@@ -13,7 +12,6 @@ const Authentification = () => {
   const fourthDigitRef = useRef(null);
   const fifthDigitRef = useRef(null);
   const sixthDigitRef = useRef(null);
-  const history = useHistory(null);
   const ui = useContext(UIContext);
   const user = useContext(UserContext);
   const [error, setError] = useState(null);
@@ -52,61 +50,6 @@ const Authentification = () => {
       setIsLoading(true);
       user.authentification(secretKey, setError);
       setIsLoading(false);
-    // if (ui.type === "login") {
-    //   console.log(user.token)
-    //   const response = await sendRequest({
-    //     url: "http://localhost:3000/login/secret",
-    //     method: "POST",
-    //     headers: {
-    //      'Authorization': user.token,
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: {
-    //       secretKey,
-    //     },
-    //   });
-
-    //   if (response.token) {
-    //     user.setUserToken(response.token);
-    //     console.log(response)
-    //     localStorage.setItem(
-    //       "userData",
-    //       JSON.stringify({
-    //         token: response.token,
-    //       })
-    //     );
-    //     history.push("/");
-    //   } else if (response.message) {
-    //     setError(response.message);
-    //   }
-    // }
-    // if (ui.type === "register") {
-    //   const response = await sendRequest({
-    //     url: "http://localhost:3000/register/secret",
-    //     method: "POST",
-    //     headers: {
-    //       'Authorization': user.token,
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: {
-    //       ...user.user,
-    //       secretKey,
-    //     },
-    //   });
-
-    //   if (response.token) {
-    //     user.setUserToken(response.token);
-    //     localStorage.setItem(
-    //       "userData",
-    //       JSON.stringify({
-    //         token: response.token,
-    //       })
-    //     );
-    //     history.push("/");
-    //   } else if (response.message) {
-    //     setError(response.message);
-    //   }
-    // }
   };
 
   const submitOnChangeHandler = () => {

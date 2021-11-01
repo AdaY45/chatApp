@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import { formatBytes } from "../../util/helpers";
 import CheckedIcon from "../../UI/Icons/Messages/CheckedIcon";
 import styles from "./Message.module.scss";
@@ -10,8 +9,10 @@ const Message = (props) => {
   const userStyle = message.type === "user";
   const fileName = message.file && message.file.name.split("$")[1];
   const formats = ["jpeg", "png", "jpg", "JPEG", "JPG", "PNG"];
-  const isImage = message.file && formats.filter(el => el === fileName.split(".")[1]).length > 0;
-
+  const isImage =
+    message.file &&
+    formats.filter((el) => el === fileName.split(".")[1]).length > 0;
+  console.log("file name", fileName);
   return (
     <div className={styles.container}>
       <div className={`${styles.message} ${userStyle ? styles.owner : ""}`}>
@@ -43,11 +44,12 @@ const Message = (props) => {
             />
           )}
           {message.file && !isImage && (
-            <NavLink
-              to={message.file.href}
+            <a
+              href={message.file.href}
               target="_blank"
+              rel="noopener noreferrer"
               className={`${styles.file} ${userStyle ? styles.user : ""}`}
-              download
+              download={fileName}
             >
               <div className={styles["file-icon"]}>
                 <FileIcon isFile={userStyle} />
@@ -66,7 +68,7 @@ const Message = (props) => {
                   ({formatBytes(message.file.size)})
                 </div>
               )}
-            </NavLink>
+            </a>
           )}
         </div>
         <MoreButton

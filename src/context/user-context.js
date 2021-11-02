@@ -33,12 +33,6 @@ export const UserContextProvider = (props) => {
 
     if (response.token) {
       setToken(response.token);
-      // localStorage.setItem(
-      //   "userData",
-      //   JSON.stringify({
-      //     token: response.token,
-      //   })
-      // );
       ui.setType("login");
 
       history.push("/auth");
@@ -67,12 +61,6 @@ export const UserContextProvider = (props) => {
     if (response.token) {
       setToken(response.token);
       ui.setType("register");
-      // localStorage.setItem(
-      //   "userData",
-      //   JSON.stringify({
-      //     token: response.token,
-      //   })
-      // );
 
       history.push("/auth");
     } else if (response.message) {
@@ -83,7 +71,6 @@ export const UserContextProvider = (props) => {
   };
 
   const authentification = async (secretKey, setError) => {
-    console.log("token",token);
     if (ui.type === "login") {
       const response = await sendRequest({
         url: `${process.env.REACT_APP_URL}login/secret`,
@@ -154,22 +141,6 @@ export const UserContextProvider = (props) => {
     setEmail(response.email);
   };
 
-  const addImage = (image) => {
-    setImage(image);
-  };
-
-  const setUserMassage = (message) => {
-    setMessage(message);
-  };
-
-  const setUserEmail = (email) => {
-    setEmail(email);
-  };
-
-  const addMessageId = (id) => {
-    setMessageId(id);
-  };
-
   return (
     <UserContext.Provider
       value={{
@@ -183,13 +154,13 @@ export const UserContextProvider = (props) => {
         chat,
         setChat,
         image,
-        setImage: addImage,
+        setImage,
         message,
-        setUserMassage,
+        setMessage,
         email,
-        setUserEmail,
+        setUserEmail: setEmail,
         messageId,
-        setMessageId: addMessageId,
+        setMessageId,
         findUser,
       }}
     >

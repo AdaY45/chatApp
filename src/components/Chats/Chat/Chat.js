@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { msToDate } from "../../util/helpers";
 import FileIcon from "../../UI/Icons/Messages/FileIcon";
 import UserContext from "../../../context/user-context";
@@ -9,7 +9,58 @@ const Chat = (props) => {
   const { chat } = props;
   const user = useContext(UserContext);
   const formats = ["jpeg", "png", "jpg", "JPEG", "JPG", "PNG"];
-  const isImage = chat.file && formats.includes(chat.file.split(".")[1]);
+  const [isImage, setIsImage] = useState(false);
+
+  console.log("IsImage", isImage);
+
+  useEffect(() => {
+    setIsImage(
+      chat.file && formats.includes(chat.file.toString().split(".")[1])
+    );
+  }, [chat.file]);
+
+  const displayMessage = () => {
+    if (user.message && user.message.room === chat.id) {
+      if (user.message.text.length > 100) {
+        return `${user.message.text.slice(0, 100)}...`;
+      } else {
+        return user.message.text;
+      }
+    } else if (chat.message && chat.message !== null) {
+      if (chat.message.length > 100) {
+        return `${chat.message.slice(0, 100)}...`;
+      } else {
+        return chat.message;
+      }
+    }
+
+    return "";
+  };
+
+  const displayFile = () => {
+    if (props.isFile && !isImage) {
+      return (
+        <div className={styles.file}>
+          <FileIcon isFile={true} />
+          <div>File</div>
+        </div>
+      );
+    } else if (isImage) {
+      return (
+        <div className={`${styles.file} ${styles.image}`}>
+          <PhotoIcon isFile={true} />
+          <div>Photo</div>
+        </div>
+      );
+    }
+    return (
+      <p className={`${styles.message} ${props.style ? "text-color" : ""}`}>
+        {displayMessage()}
+      </p>
+    );
+  };
+
+  console.log("chat.status", chat.status)
 
   return (
     <div className={`${styles.container} ${props.style}`}>
@@ -21,12 +72,24 @@ const Chat = (props) => {
           </div>
           <div className={styles.text}>
             <div className="name">{chat.name}</div>
-            <div className="online">{chat.status}</div>
+            <div className="online">
+              {chat.status === "...writing"
+                ? chat.status
+                : chat.exitDate
+                ? msToDate(chat.exitDate)
+                : chat.online
+                ? "online"
+                : chat.status !== "dispatch"
+                ? chat.status
+                : ""}
+            </div>
           </div>
         </div>
         <div className={`${styles.time} ${props.style ? "text-color" : ""}`}>
           <div className="text-color">
-            {user.message && user.message.room === chat.id
+            {user.message &&
+            user.message.room === chat.id &&
+            user.message.date !== null
               ? msToDate(user.message.date)
               : chat.time !== null
               ? msToDate(chat.time)
@@ -35,23 +98,7 @@ const Chat = (props) => {
         </div>
       </div>
       <div className={styles["message-block"]}>
-        {props.isFile && !isImage ? (
-          <div className={styles.file}>
-            <FileIcon isFile={true} />
-            <div>File</div>
-          </div>
-        ) : isImage ? (
-          <div className={`${styles.file} ${styles.image}`}>
-            <PhotoIcon isFile={true} />
-            <div>Photo</div>
-          </div>
-        ) : (
-          <p className={`${styles.message} ${props.style ? "text-color" : ""}`}>
-            {user.message && user.message.room === chat.id
-              ? user.message.text
-              : chat.message}
-          </p>
-        )}
+        {displayFile()}
         {chat.noChecked > 0 && (
           <div className={styles.unread}>
             <div>{chat.noChecked}</div>

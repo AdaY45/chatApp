@@ -78,10 +78,12 @@ const MessageInput = (props) => {
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={submitHandler}>
-        {selectedFile && <div className={styles.file}>
-          <FileIcon isFile={true} />
-          <div className={styles.name}>{selectedFile.name}</div>
-          </div>}
+        {selectedFile && (
+          <div className={styles.file}>
+            <FileIcon isFile={true} />
+            <div className={styles.name}>{selectedFile.name}</div>
+          </div>
+        )}
         <div className={styles["plus-nav"]}>
           {showNav && (
             <div className={styles.nav}>
@@ -119,6 +121,8 @@ const MessageInput = (props) => {
           className={styles.message}
           value={props.message}
           onChange={onChangeInput}
+          onFocus={() => socket.startWriting(user.chat.id)}
+          onBlur={() => socket.stopWriting(user.chat.id)}
         />
         <button className={styles.smile} onClick={onEmojiOpenClick}>
           <SmileIcon />

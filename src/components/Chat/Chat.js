@@ -9,6 +9,7 @@ import UserContext from "../../context/user-context";
 import ChatContext from "../../context/chat-context";
 import UIContext from "../../context/ui-context";
 import useWindowDimensions from "../../hooks/use-dimensions";
+import SocketContext from "../../context/socket-context";
 
 const Chat = () => {
   const [isReady, setIsReady] = useState(false);
@@ -18,6 +19,7 @@ const Chat = () => {
   const user = useContext(UserContext);
   const chat = useContext(ChatContext);
   const ui = useContext(UIContext);
+  const socket = useContext(SocketContext);
   const windowDimensions = useWindowDimensions();
 
   useEffect(() => {
@@ -37,6 +39,7 @@ const Chat = () => {
         setAmount(chat.start >= 10 ? 10 : chat.start);
         setIsLoading(true);
         await chat.getMessages(user.chat.id, chat.start, amount, setError);
+        socket.readMessages(user.chat.id, chat.messages);
         setIsLoading(false);
       }
     };
@@ -67,7 +70,7 @@ const Chat = () => {
           />
           <div className={styles["profile-info"]}>
             <div className="name">{user.chat.name}</div>
-            <div className="online">{user.chat.time === null ? "" : msToDate(user.chat.time)}</div>
+            <div className="online">{user.chat.status === "...writing" ? user.chat.status : user.chat.exitDate ? msToDate(user.chat.exitDate) : ""}</div>
           </div>
         </div>
         <div className={styles.nav}>

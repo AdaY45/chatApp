@@ -40,25 +40,16 @@ const CreateChat = () => {
     e.preventDefault();
 
     if (type === "room") {
-      if (!selectedFile) {
-        setError("Choose the photo");
-        return;
-      }
       if (!nameIsValid && !selectedFile) {
         return;
       }
-      console.log("selectedFile",selectedFile);
+     // console.log("selectedFile", selectedFile);
 
-      const formData = new FormData();
-      formData.append("photo", selectedFile)
-
-      const photo = {
-        originalName: selectedFile.name,
-        size: selectedFile.size,
-        buffer: formData.get("photo"),
-      };  
-
-      console.log("createChat",{ users: users.concat(user.email), photo, name})
+       const photo = selectedFile ? {
+          originalName: selectedFile.name,
+          size: selectedFile.size,
+          buffer: selectedFile,
+        } : undefined;
 
       socket.createChat(users.concat(user.email), photo, name);
     } else if (type === "personal") {

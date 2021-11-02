@@ -55,6 +55,7 @@
     color: $input-color;
     text-align: left;
     display: flex;
+    justify-content: space-between;
     padding: 40px;
     padding-top: 0;
     padding-bottom: 30px;
@@ -79,12 +80,12 @@
     }
 
     .message {
-      margin: 0;
+      margin: auto 0;
     }
 
     .unread {
       color: #fff;
-      margin-top: 10px;
+      margin: 0;
 
       div {
         background-color: $indication-color;

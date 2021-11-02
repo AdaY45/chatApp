@@ -2,8 +2,6 @@ import { useContext, useState, createContext } from "react";
 import UserContext from "../context/user-context";
 import useHttp from "../hooks/use-http";
 
-const URL = "http://localhost:3000/";
-
 const ChatContext = createContext({});
 
 export const ChatContextProvider = (props) => {

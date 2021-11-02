@@ -7,11 +7,14 @@ import Auth from "./components/Auth/Auth";
 import Authentification from "./pages/Authentification";
 import Dashboard from "./pages/Dashboard";
 import UserContext from "./context/user-context";
+import UIContext from "./context/ui-context";
 
 function App() {
+  console.log("in App")
   const [isReady, setIsReady] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
+  //const [isAuth, setIsAuth] = useState(false);
   const user = useContext(UserContext);
+  const ui = useContext(UIContext);
 
   useEffect(() => {
     const getToken = async () => {
@@ -50,9 +53,11 @@ function App() {
         //   }
         // }
         console.log("data.token: ", data.token);
+        console.log("isAuth 3", ui.isAuth)
         if (data.token !== null) {
           user.setToken(data.token);
-          setIsAuth(true);
+          console.log("HERE");
+          ui.setIsAuth(true);
         }
         setIsReady(true);
       } catch (e) {
@@ -63,7 +68,8 @@ function App() {
     getToken();
   }, [user]);
 
-  if (isAuth) {
+  if (ui.isAuth) {
+    console.log("auth")
     return (
       <Layout>
         <Switch>

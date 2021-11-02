@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import DownIcon from "../UI/Icons/Chats/DownIcon";
 import Navigation from "./Navigation/Navigation";
 import UserContext from "../../context/user-context";
+import UIContext from "../../context/ui-context";
 import styles from "./Header.module.scss";
 import LogoutIcon from "../UI/Icons/Header/LogoutIcon";
 import Loader from "../UI/Loader/Loader";
@@ -12,6 +13,7 @@ const Header = (props) => {
   const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState("");
   const user = useContext(UserContext);
+  const ui = useContext(UIContext);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -26,8 +28,9 @@ const Header = (props) => {
   }, [props.isReady]);
 
   const logoutHandler = () => {
+    //user.setToken(null);
+    ui.setIsAuth(false);
     localStorage.removeItem("userData");
-    user.setToken("");
     history.push("/login");
   };
 

@@ -10,6 +10,7 @@ import styles from "./Dashboard.module.scss";
 
 const Dashboard = (props) => {
   const ui = useContext(UIContext);
+  console.log("ui.isOpenChats", ui.isOpenChats)
   return (
     <ChatContextProvider>
       <SocketContextProvider>

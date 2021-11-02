@@ -12,7 +12,7 @@ const Message = (props) => {
   const isImage =
     message.file &&
     formats.filter((el) => el === fileName.split(".")[1]).length > 0;
-  console.log("file name", fileName);
+  //console.log("file name", fileName);
   return (
     <div className={styles.container}>
       <div className={`${styles.message} ${userStyle ? styles.owner : ""}`}>

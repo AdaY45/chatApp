@@ -16,8 +16,10 @@ const Chats = () => {
   const [error, setError] = useState(false);
   const ui = useContext(UIContext);
   const user = useContext(UserContext);
-  const chats = useContext(ChatContext);
+  const chats = useContext(ChatContext); 
   const windowDimensions = useWindowDimensions();
+
+//console.log("open chats", ui.setIsOpenChats)
 
   useEffect(() => {
     const getChats = async () => {

@@ -10,25 +10,10 @@ export const UIContextProvider = (props) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isCreateChat, setIsCreateChat] = useState(false);
   const [loadChats, setLoadChats] = useState(true);
-
-  const setTypeForAuth = (type) => {
-    setType(type);
-  };
-
-  const setOpenChats = (type) => {
-    setIsOpenChats(type);
-  };
-
-  const setOpenChat = (type) => {
-    setIsOpenChat(type);
-  };
+  const [isAuth, setIsAuth] = useState(false);
 
   const addIsEmojii = (isEmojii) => {
     setIsEmojji(isEmojii);
-  };
-
-  const setEdit = (isEdit) => {
-    setIsEdit(isEdit);
   };
 
   const setIsOpenCreateChat = () => {
@@ -43,19 +28,21 @@ export const UIContextProvider = (props) => {
     <UIContext.Provider
       value={{
         type,
-        setType: setTypeForAuth,
+        setType,
         isOpenChats,
-        setIsOpenChats: setOpenChats,
+        setIsOpenChats,
         isOpenChat,
-        setIsOpenChat: setOpenChat,
+        setIsOpenChat,
         isEmojii,
         setIsEmojji: addIsEmojii,
         isEdit,
-        setIsEdit: setEdit,
+        setIsEdit,
         isOpenCreateChat: isCreateChat,
         setIsOpenCreateChat,
         loadChats,
         setLoadChats: setIsLoadChats,
+        isAuth,
+        setIsAuth
       }}
     >
       {props.children}

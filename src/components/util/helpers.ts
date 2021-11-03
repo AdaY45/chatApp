@@ -50,11 +50,11 @@ export const msToDate = (ms: number) => {
 };
 
 export const formatBytes = (bytes: number) => {
-    var marker = 1024;
-    var decimal = 3;
-    var kiloBytes = marker;
-    var megaBytes = marker * marker;
-    var gigaBytes = marker * marker * marker;
+    var marker: number = 1024;
+    var decimal: number = 3;
+    var kiloBytes: number = marker;
+    var megaBytes: number = marker * marker;
+    var gigaBytes: number = marker * marker * marker;
 
     if (bytes < kiloBytes) return bytes + " Bytes";
     else if (bytes < megaBytes)

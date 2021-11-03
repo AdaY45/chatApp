@@ -5,6 +5,12 @@ export interface IFile {
     href: string
 }
 
+export interface IUploadingFile {
+    originalName: string,
+    size: number,
+    buffer: File
+}
+
 export interface IMessage {
     id: string,
     type: string,

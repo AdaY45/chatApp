@@ -9,13 +9,13 @@ type UIContextObj = {
   isOpenCreateChat: boolean,
   loadChats: boolean,
   isAuth: boolean,
-  setType: (type: string) => void,
-  setIsOpenChats: (isOpenChats: boolean) => void,
-  setIsOpenChat: (isOpenChat: boolean) => void,
-  setIsEmojji: (isEmojji: boolean) => void,
-  setIsEdit: (isEdit: boolean) => void,
-  setLoadChats: (loadChats: boolean) => void,
-  setIsAuth: (isAuth: boolean) => void,
+  setType: React.Dispatch<React.SetStateAction<string>>,
+  setIsOpenChats: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsOpenChat: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsEmojji: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsEdit: React.Dispatch<React.SetStateAction<boolean>>,
+  setLoadChats: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>,
   setIsOpenCreateChat: () => void
 }
 

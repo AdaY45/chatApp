@@ -10,19 +10,19 @@ type UserContextObj = {
   user: IUser;
   chat: IChat;
   image: string;
-  message: IMessage;
+  message: IMessage | null;
   email: string;
   messageId: string;
-  setToken: (token: string) => void;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
   login: (email: string, password: string, setError: Function) => void;
   register: (email: string, setError: Function) => void;
   authentification: (secretKey: string, setError: Function) => void;
-  setUser: (user: IUser) => void;
-  setChat: (chat: IChat) => void;
-  setImage: (image: string) => void;
-  setMessage: (message: IMessage) => void;
-  setUserEmail: (email: string) => void;
-  setMessageId: (messageId: string) => void;
+  setUser: React.Dispatch<React.SetStateAction<IUser>>
+  setChat: React.Dispatch<React.SetStateAction<IChat>>;
+  setImage: React.Dispatch<React.SetStateAction<string>>;
+  setMessage: React.Dispatch<React.SetStateAction<IMessage | null>>;
+  setUserEmail: React.Dispatch<React.SetStateAction<string>>;
+  setMessageId: React.Dispatch<React.SetStateAction<string>>;
   findUser: (setError: Function) => void;
 };
 
@@ -46,7 +46,7 @@ export const UserContextProvider: React.FC = (props) => {
   const [user, setUser] = useState<IUser>({} as IUser);
   const [chat, setChat] = useState<IChat>({} as IChat);
   const [image, setImage] = useState<string>("");
-  const [message, setMessage] = useState<IMessage>({} as IMessage);
+  const [message, setMessage] = useState<IMessage | null>({} as IMessage);
   const [email, setEmail] = useState<string>("");
   const [messageId, setMessageId] = useState<string>("");
   const { error, sendRequest } = useHttp();

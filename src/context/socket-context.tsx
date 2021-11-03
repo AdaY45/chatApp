@@ -1,18 +1,30 @@
 import { useEffect, useContext, useState, createContext } from "react";
-import UserContext from "../context/user-context";
+import { io } from "socket.io-client";
+import UserContext from "./user-context";
 import ChatContext from "./chat-context";
 import UIContext from "./ui-context";
-import { io } from "socket.io-client";
+import {IMessage, IUploadingFile} from "../interfaces/chat";
 
-const SocketContext = createContext({});
+type SocketContextoObj = {
+  sendMessage: (id: string, message: string, file: IUploadingFile) => void;
+  updateMessage: (id: string, text: string) => void;
+  deleteMessage: (id: string) => void;
+  createChat: (users: Array<string>, photo: IUploadingFile, name: string) => void;
+  createPersonal: (users: Array<string>) => void;
+  readMessages: (id: string, messages: IMessage[]) => void;
+  startWriting: (id: string) => void;
+  stopWriting: (id: string) => void;
+};
 
-export const SocketContextProvider = (props) => {
-  const [messages, setMessages] = useState([]);
-  const [chats, setChats] = useState([]);
+const SocketContext = createContext<SocketContextoObj>({} as SocketContextoObj);
+
+export const SocketContextProvider: React.FC = (props) => {
+  // const [messages, setMessages] = useState([]);
+  // const [chats, setChats] = useState([]);
   const user = useContext(UserContext);
   const chat = useContext(ChatContext);
   const ui = useContext(UIContext);
-  const url = "http://localhost:3001/";
+  const url: string = "http://localhost:3001/";
 
   const socket = io(url, {
     auth: {
@@ -147,56 +159,56 @@ export const SocketContextProvider = (props) => {
     };
   }, [socket, user, chat]);
 
-  const addMessages = (messages) => {
-    setMessages(messages);
-  };
+  // const addMessages = (messages) => {
+  //   setMessages(messages);
+  // };
 
-  const addChats = (chats) => {
-    setChats(chats);
-  };
+  // const addChats = (chats) => {
+  //   setChats(chats);
+  // };
 
-  const sendMessage = (id, message, file) => {
+  const sendMessage = (id: string, message: string, file: IUploadingFile) => {
     console.log("socket: ", { room: id, message, file });
     socket.emit("server-send-message", { room: id, message, file });
   };
 
-  const updateMessage = (id, text) => {
+  const updateMessage = (id: string, text: string) => {
     socket.emit("server-update-message", { id, text });
   };
 
-  const deleteMessage = (id) => {
+  const deleteMessage = (id: string) => {
     socket.emit("server-delete-message", { id });
   };
 
-  const createChat = (users, photo, name) => {
+  const createChat = (users: Array<string>, photo: IUploadingFile, name: string) => {
     console.log("create", { users, photo, name });
     socket.emit("server-create-room", { users, photo, name });
   };
 
-  const createPersonal = (users) => {
+  const createPersonal = (users: Array<string>) => {
     socket.emit("server-create-room", { users });
   };
 
-  const readMessages = (id, messages) => {
+  const readMessages = (id: string, messages: IMessage[]) => {
     socket.emit("server-read-message", { id, messages });
   };
 
-  const startWriting = (id) => {
+  const startWriting = (id: string) => {
     console.log("server-start-writing", id);
     socket.emit("server-start-writing", { id });
   };
 
-  const stopWriting = (id) => {
+  const stopWriting = (id: string) => {
     socket.emit("server-stop-writing", { id });
   };
 
   return (
     <SocketContext.Provider
       value={{
-        messages,
-        chats,
-        addMessages,
-        addChats,
+        // messages,
+        // chats,
+        // addMessages,
+        // addChats,
         sendMessage,
         updateMessage,
         deleteMessage,

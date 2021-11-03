@@ -1,31 +1,45 @@
-import { useContext, useState, createContext } from "react";
-import UserContext from "../context/user-context";
+import React, { useContext, useState, createContext } from "react";
+import UserContext from "./user-context";
 import useHttp from "../hooks/use-http";
+import {IMessage, IChat} from "../interfaces/chat";
 
-const ChatContext = createContext({});
+type ChatContextObj = {
+  messages: IMessage[],
+  chats: IChat[],
+  start: number,
+  addMessages: (messages: IMessage[]) => void,
+  addChats: (chats: IChat[]) => void,
+  getChats: (setError: Function) => void,
+  getMessagesCount: () => Promise<number>,
+  getMessages: (id: string, start: number, amount: number, setError: Function) => void,
+  setStartMessages: (start: number) => void,
+  reduceCountMessages: () => void,
+}
 
-export const ChatContextProvider = (props) => {
-  const [messages, setMessages] = useState([]);
-  const [chats, setChats] = useState([]);
-  const [start, setStart] = useState(0);
+const ChatContext = createContext<ChatContextObj>({} as ChatContextObj);
+
+export const ChatContextProvider: React.FC = (props) => {
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [chats, setChats] = useState<IChat[]>([]);
+  const [start, setStart] = useState<number>(0);
   const user = useContext(UserContext);
-  const { errorMessage, sendRequest } = useHttp();
+  const { error, sendRequest } = useHttp();
 
-  const getChats = async (setError) => {
-    const response = await sendRequest({
+  const getChats = async (setError: Function) => {
+    const response: IChat[] = await sendRequest({
       url: `${process.env.REACT_APP_URL}chat-list/0/0`,
       headers: {
         Authorization: user.token,
       },
     });
-    if (errorMessage) {
-      setError(errorMessage);
+    if (error) {
+      setError(error);
     }
     setChats(response.length > 1 ? response.reverse() : response);
   };
 
   const getMessagesCount = async () => {
-    const count = await sendRequest({
+    const count: number = await sendRequest({
       url: `${process.env.REACT_APP_URL}chat-room/messages-count/${user.chat.id}`,
       headers: {
         Authorization: user.token,
@@ -35,27 +49,27 @@ export const ChatContextProvider = (props) => {
     return count;
   };
 
-  const getMessages = async (id, start, amount, setError) => {
-    const response = await sendRequest({
+  const getMessages = async (id: string, start: number, amount: number, setError: Function) => {
+    const response: IMessage[] = await sendRequest({
       url: `${process.env.REACT_APP_URL}chat-room/${id}/${start}/${amount}`,
       headers: {
         Authorization: user.token,
       },
     });
 
-    if (errorMessage) {
-      setError(errorMessage);
+    if (error) {
+      setError(error);
     }
     if (!messages[0] || user.chat.id !== messages[0].room) {
       setMessages(
-        response.map((el) => {
+        response.map((el: IMessage) => {
           return { ...el, room: user.chat.id };
         })
       );
     } else {
       setMessages((previousState) =>
         response
-          .map((el) => {
+          .map((el: IMessage) => {
             return { ...el, room: user.chat.id };
           })
           .concat(previousState)
@@ -63,7 +77,7 @@ export const ChatContextProvider = (props) => {
     }
   };
 
-  const setStartMessages = (start) => {
+  const setStartMessages = (start: number) => {
     if (start > 0) {
       setStart(start);
     } else {

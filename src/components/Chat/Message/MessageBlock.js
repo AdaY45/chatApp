@@ -16,6 +16,8 @@ const MessageBlock = (props) => {
     }
   };
 
+  console.log("messages", chat.messages);
+
   return (
     <div className={styles["message-block"]}>
       <div className={styles.container} onScroll={handleScroll}>

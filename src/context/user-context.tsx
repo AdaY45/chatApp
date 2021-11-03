@@ -2,23 +2,58 @@ import React, { useState, useContext } from "react";
 import { useHistory } from "react-router";
 import useHttp from "../hooks/use-http";
 import UIContext from "./ui-context";
+import { IUser, IMessage } from "../interfaces/user";
+import { IChat } from "../interfaces/chat";
 
-const UserContext = React.createContext({});
+type UserContextObj = {
+  token: string;
+  user: IUser;
+  chat: IChat;
+  image: string;
+  message: IMessage;
+  email: string;
+  messageId: string;
+  setToken: (token: string) => void;
+  login: (email: string, password: string, setError: Function) => void;
+  register: (email: string, setError: Function) => void;
+  authentification: (secretKey: string, setError: Function) => void;
+  setUser: (user: IUser) => void;
+  setChat: (chat: IChat) => void;
+  setImage: (image: string) => void;
+  setMessage: (message: IMessage) => void;
+  setUserEmail: (email: string) => void;
+  setMessageId: (messageId: string) => void;
+  findUser: (setError: Function) => void;
+};
 
-export const UserContextProvider = (props) => {
+interface Token {
+  token: string;
+}
+
+interface Message {
+  message: string;
+}
+
+// type Login = Token | Message | string;
+
+type Auth = 'token' | 'message';
+
+const UserContext = React.createContext<UserContextObj>({} as UserContextObj);
+
+export const UserContextProvider: React.FC = (props) => {
   const history = useHistory();
-  const [token, setToken] = useState("");
-  const [user, setUser] = useState({});
-  const [chat, setChat] = useState({});
-  const [image, setImage] = useState("");
-  const [message, setMessage] = useState(null);
-  const [email, setEmail] = useState("");
-  const [messageId, setMessageId] = useState(null);
-  const { errorMessage, sendRequest } = useHttp();
+  const [token, setToken] = useState<string>("");
+  const [user, setUser] = useState<IUser>({} as IUser);
+  const [chat, setChat] = useState<IChat>({} as IChat);
+  const [image, setImage] = useState<string>("");
+  const [message, setMessage] = useState<IMessage>({} as IMessage);
+  const [email, setEmail] = useState<string>("");
+  const [messageId, setMessageId] = useState<string>("");
+  const { error, sendRequest } = useHttp();
   const ui = useContext(UIContext);
 
-  const login = async (email, password, setError) => {
-    const response = await sendRequest({
+  const login = async (email: string, password: string, setError: Function) => {
+    let response: Record<Auth | string, string> = await sendRequest({
       url: `${process.env.REACT_APP_URL}login`,
       method: "POST",
       body: {
@@ -27,8 +62,10 @@ export const UserContextProvider = (props) => {
       },
     });
 
-    if (errorMessage) {
-      setError(errorMessage);
+    //let res = response as Token;
+
+    if (error) { 
+      setError(error);
     }
 
     if (response.token) {
@@ -36,15 +73,19 @@ export const UserContextProvider = (props) => {
       ui.setType("login");
 
       history.push("/auth");
-    } else if (response.message) {
-      return response.message;
-    } else {
-      return response;
     }
+
+    //let res2 = response as Message;
+
+    if (response.message) {
+      setError(response.message);
+    }
+
+    setError(response);
   };
 
-  const register = async (email, setError) => {
-    const response = await sendRequest({
+  const register = async (email: string, setError: Function) => {
+    const response: Record<Auth | string, string> = await sendRequest({
       url: `${process.env.REACT_APP_URL}register`,
       method: "POST",
       body: {
@@ -52,11 +93,9 @@ export const UserContextProvider = (props) => {
       },
     });
 
-    if (errorMessage) {
-      setError(errorMessage);
+    if (error) {
+      setError(error);
     }
-
-    console.log("token register: ", response.token);
 
     if (response.token) {
       setToken(response.token);
@@ -70,9 +109,9 @@ export const UserContextProvider = (props) => {
     }
   };
 
-  const authentification = async (secretKey, setError) => {
+  const authentification = async (secretKey: string, setError: Function) => {
     if (ui.type === "login") {
-      const response = await sendRequest({
+      const response: Record<Auth | string, string> = await sendRequest({
         url: `${process.env.REACT_APP_URL}login/secret`,
         method: "POST",
         headers: {
@@ -97,8 +136,7 @@ export const UserContextProvider = (props) => {
       }
     }
     if (ui.type === "register") {
-      console.log("token auth: ", token);
-      const response = await sendRequest({
+      const response: Record<Auth | string, string> = await sendRequest({
         url: `${process.env.REACT_APP_URL}register/secret`,
         method: "POST",
         headers: {
@@ -125,18 +163,17 @@ export const UserContextProvider = (props) => {
     }
   };
 
-  const findUser = async (setError) => {
+  const findUser = async (setError: Function) => {
     console.log(token);
-    const response = await sendRequest({
+    const response: IUser = await sendRequest({
       url: `${process.env.REACT_APP_URL}find`,
       headers: {
         Authorization: token,
       },
     });
-    if (errorMessage) {
-      setError(errorMessage);
+    if (error) {
+      setError(error);
     }
-    console.log("user", response);
     setUser(response);
     setEmail(response.email);
   };

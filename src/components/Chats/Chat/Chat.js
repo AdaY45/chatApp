@@ -38,7 +38,7 @@ const Chat = (props) => {
   };
 
   const displayFile = () => {
-    if (props.isFile && !isImage) {
+    if (chat.file && !isImage) {
       return (
         <div className={styles.file}>
           <FileIcon isFile={true} />

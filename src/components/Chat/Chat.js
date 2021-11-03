@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import { msToDate } from "../util/helpers";
+import { msToDate } from "../util/helpers"
 import AttachIcon from "../UI/Icons/Messages/AttachIcon";
 import MoreIcon from "../UI/Icons/Messages/MoreIcon";
 import styles from "./Chat.module.scss";

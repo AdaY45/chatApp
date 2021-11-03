@@ -1,9 +1,23 @@
-export const msToDate = (ms) => {
-  const now = new Date();
-  const then = new Date(ms);
-  var d = Math.abs(now - then) / 1000;
-  var r = {};
-  var s = {
+interface ITimeObjects {
+  [key: string]: number
+}
+
+interface ITime extends ITimeObjects {
+  year: number,
+  month: number,
+  week: number,
+  day: number,
+  hour: number,
+  minute: number,
+  second: number
+}
+
+export const msToDate = (ms: number) => {
+  const now: any = new Date();
+  const then: any = new Date(ms);
+  var d: number = Math.abs(now - then) / 1000;
+  var r = {} as ITime;
+  var s: ITime = {
     year: 31536000,
     month: 2592000,
     week: 604800,
@@ -14,8 +28,8 @@ export const msToDate = (ms) => {
   };
 
   Object.keys(s).forEach(function (key) {
-    r[key] = Math.floor(d / s[key]);
-    d -= r[key] * s[key];
+    r[key as keyof ITime] = Math.floor(d / s[key as keyof ITime]);
+    d -= r[key as keyof ITime] * s[key as keyof ITime];
   });
 
   if (r.year !== 0) {
@@ -35,7 +49,7 @@ export const msToDate = (ms) => {
   }
 };
 
-export const formatBytes = (bytes) => {
+export const formatBytes = (bytes: number) => {
     var marker = 1024;
     var decimal = 3;
     var kiloBytes = marker;

@@ -4,7 +4,7 @@ import SignIn from "./SingIn";
 
 import styles from "./Auth.module.scss";
 
-const Auth = (props) => {
+const Auth: React.FC<{isSignUp: boolean}> = (props) => {
   return (
     <section className={styles.auth}>
       <div className={styles["auth-btn"]}>

@@ -4,16 +4,17 @@ import useInput from "../../../../hooks/use-input";
 import UserContext from "../../../../context/user-context";
 import SocketContext from "../../../../context/socket-context";
 import PhotoIcon from "../../../UI/Icons/Messages/PhotoIcon";
+import { IUploadingFile } from "../../../../interfaces/chat";
 import styles from "./CreateChat.module.scss";
 
-const CreateChat = () => {
-  const [type, setType] = useState("room");
-  const [users, setUsers] = useState([]);
+const CreateChat: React.FC = () => {
+  const [type, setType] = useState<string>("room");
+  const [users, setUsers] = useState<Array<string>>([]);
   const ui = useContext(UIContext);
   const user = useContext(UserContext);
   const socket = useContext(SocketContext);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [error, setError] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     value: name,
@@ -21,7 +22,7 @@ const CreateChat = () => {
     hasErrors: nameHasErrors,
     valueChangeHandler: nameChangeHandler,
     inputBlurHandler: nameBlurHandler,
-  } = useInput((value) => value.trim() !== "");
+  } = useInput((value: string) => value.trim() !== "");
 
   const {
     value: email,
@@ -30,26 +31,29 @@ const CreateChat = () => {
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
     setValue: setEmail,
-  } = useInput((value) => /\S+@\S+\.\S+/.test(value));
+  } = useInput((value: string) => /\S+@\S+\.\S+/.test(value));
 
-  const onChangeFile = (e) => {
+  const onChangeFile: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (!e.target.files) return;
     setSelectedFile(e.target.files[0]);
   };
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (type === "room") {
       if (!nameIsValid && !selectedFile) {
         return;
       }
-     // console.log("selectedFile", selectedFile);
+      // console.log("selectedFile", selectedFile);
 
-       const photo = selectedFile ? {
-          originalName: selectedFile.name,
-          size: selectedFile.size,
-          buffer: selectedFile,
-        } : undefined;
+      const photo: IUploadingFile | undefined = selectedFile
+        ? {
+            originalName: selectedFile.name,
+            size: selectedFile.size,
+            buffer: selectedFile,
+          }
+        : undefined;
 
       socket.createChat(users.concat(user.email), photo, name);
     } else if (type === "personal") {
@@ -64,7 +68,7 @@ const CreateChat = () => {
     setSelectedFile(null);
   };
 
-  const nameInputStyles = nameHasErrors ? styles.invalid : "";
+  const nameInputStyles: string = nameHasErrors ? styles.invalid : "";
 
   return (
     <section

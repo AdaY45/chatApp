@@ -8,10 +8,10 @@ import styles from "./Header.module.scss";
 import LogoutIcon from "../UI/Icons/Header/LogoutIcon";
 import Loader from "../UI/Loader/Loader";
 
-const Header = (props) => {
+const Header: React.FC<{isReady: boolean}> = (props) => {
   const history = useHistory();
-  const [isReady, setIsReady] = useState(false);
-  const [error, setError] = useState("");
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const user = useContext(UserContext);
   const ui = useContext(UIContext);
 
@@ -28,7 +28,6 @@ const Header = (props) => {
   }, [props.isReady]);
 
   const logoutHandler = () => {
-    //user.setToken(null);
     ui.setIsAuth(false);
     localStorage.removeItem("userData");
     history.push("/login");

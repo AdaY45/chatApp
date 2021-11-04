@@ -2,7 +2,7 @@ import SearchIcon from "../../UI/Icons/Chats/SearchIcon";
 import Filter from "../Filter/Filter";
 import styles from "./Search.module.scss";
 
-const Search = () => {
+const Search: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.icon}>

@@ -26,16 +26,6 @@ type UserContextObj = {
   findUser: (setError: Function) => void;
 };
 
-interface Token {
-  token: string;
-}
-
-interface Message {
-  message: string;
-}
-
-// type Login = Token | Message | string;
-
 type Auth = 'token' | 'message';
 
 const UserContext = React.createContext<UserContextObj>({} as UserContextObj);
@@ -62,8 +52,6 @@ export const UserContextProvider: React.FC = (props) => {
       },
     });
 
-    //let res = response as Token;
-
     if (error) { 
       setError(error);
     }
@@ -74,8 +62,6 @@ export const UserContextProvider: React.FC = (props) => {
 
       history.push("/auth");
     }
-
-    //let res2 = response as Message;
 
     if (response.message) {
       setError(response.message);

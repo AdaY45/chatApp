@@ -2,21 +2,20 @@ import { useContext, useState, useEffect } from "react";
 import { msToDate } from "../../util/helpers";
 import FileIcon from "../../UI/Icons/Messages/FileIcon";
 import UserContext from "../../../context/user-context";
+import { IChat } from "../../../interfaces/chat";
 import PhotoIcon from "../../UI/Icons/Messages/PhotoIcon";
 import styles from "./Chat.module.scss";
 
-const Chat = (props) => {
+const Chat: React.FC<{ chat: IChat, style: string, isFile: boolean}> = (props) => {
   const { chat } = props;
   const user = useContext(UserContext);
-  const formats = ["jpeg", "png", "jpg", "JPEG", "JPG", "PNG"];
-  const [isImage, setIsImage] = useState(false);
-
-  console.log("IsImage", isImage);
+  const formats: Array<string> = ["jpeg", "png", "jpg", "JPEG", "JPG", "PNG"];
+  const [isImage, setIsImage] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsImage(
-      chat.file && formats.includes(chat.file.toString().split(".")[1])
-    );
+    if (chat.file) {
+      setIsImage(formats.includes(chat.file.toString().split(".")[1]));
+    }
   }, [chat.file]);
 
   const displayMessage = () => {
@@ -60,7 +59,20 @@ const Chat = (props) => {
     );
   };
 
-  console.log("chat.status", chat.status)
+  const displayStatus = () => {
+      if(chat.status === "...writing") {
+        return chat.status;
+      } else if(typeof chat.exitDate === 'number') {
+        return msToDate(chat.exitDate);
+      } else if(chat.online) {
+        return "online";
+      } else if(chat.status !== "dispatch") {
+        return chat.status;
+      }
+      return "";
+  }
+
+  console.log("chat.status", chat.status);
 
   return (
     <div className={`${styles.container} ${props.style}`}>
@@ -73,15 +85,7 @@ const Chat = (props) => {
           <div className={styles.text}>
             <div className="name">{chat.name}</div>
             <div className="online">
-              {chat.status === "...writing"
-                ? chat.status
-                : chat.exitDate
-                ? msToDate(chat.exitDate)
-                : chat.online
-                ? "online"
-                : chat.status !== "dispatch"
-                ? chat.status
-                : ""}
+              {displayStatus()}
             </div>
           </div>
         </div>

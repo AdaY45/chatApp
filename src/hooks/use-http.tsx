@@ -1,9 +1,20 @@
 import { useState, useCallback } from "react";
 
-const useHttp = () => {
-  const [error, setError] = useState(null);
+interface IObj {
+  [key: string]: any
+}
 
-  const sendRequest = useCallback(async (requestConfig) => {
+interface IRequestConfig {
+  url: string,
+  method?: string,
+  body?: IObj,
+  headers?: IObj
+}
+
+const useHttp = () => {
+  const [error, setError] = useState<string | null>(null);
+
+  const sendRequest = useCallback(async (requestConfig: IRequestConfig) => {
     try {
       const response = await fetch(requestConfig.url, {
         method: requestConfig.method ? requestConfig.method : "GET",
@@ -18,7 +29,7 @@ const useHttp = () => {
       const data = await response.json();
 
       return data;
-    } catch (e) {
+    } catch (e: any) {
       setError(e);
     }
   }, []);

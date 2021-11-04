@@ -1,28 +1,27 @@
 import { useState, useRef, useContext, useEffect } from "react";
-import { useHistory } from "react-router";
 import Input from "../components/UI/Input/Input";
 import UIContext from "../context/ui-context";
 import UserContext from "../context/user-context";
 import styles from "./Authentification.module.scss";
 
 const Authentification = () => {
-  const firstDigitRef = useRef(null);
-  const secondDigitRef = useRef(null);
-  const thirdDigitRef = useRef(null);
-  const fourthDigitRef = useRef(null);
-  const fifthDigitRef = useRef(null);
-  const sixthDigitRef = useRef(null);
+  const firstDigitRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const secondDigitRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const thirdDigitRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const fourthDigitRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const fifthDigitRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const sixthDigitRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const ui = useContext(UIContext);
   const user = useContext(UserContext);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     firstDigitRef.current.focus();
   }, []);
 
-  const errorCheck = (value) => {
-    return value.trim() !== "" && value > 0 && value < 10;
+  const errorCheck = (value: string) => {
+    return value.trim() !== "" && +value > 0 && +value < 10;
   };
 
   const submitHandler = async () => {
@@ -56,7 +55,7 @@ const Authentification = () => {
     submitHandler();
   };
 
-  const focusOnNextInputHandler = (event) => {
+  const focusOnNextInputHandler = (event: React.ChangeEvent) => {
     const id = event.target.attributes["0"].textContent;
     if (id === "digit1") {
       secondDigitRef.current.focus();

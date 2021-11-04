@@ -24,7 +24,7 @@ export interface IMessage {
 
 export interface IChat {
     exitDate: number | boolean,
-    file: string | null | undefined,
+    file?: string | null,
     id: string,
     isRoom: boolean,
     message: string,

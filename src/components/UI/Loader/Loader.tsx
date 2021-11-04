@@ -1,6 +1,6 @@
 import styles from "./Loader.module.scss";
 
-const Loader = () => {
+const Loader: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.loader}></div>

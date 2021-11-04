@@ -6,10 +6,10 @@ import UIContext from "./ui-context";
 import {IMessage, IUploadingFile} from "../interfaces/chat";
 
 type SocketContextoObj = {
-  sendMessage: (id: string, message: string, file: IUploadingFile) => void;
+  sendMessage: (id: string, message: string, file: IUploadingFile | undefined) => void;
   updateMessage: (id: string, text: string) => void;
   deleteMessage: (id: string) => void;
-  createChat: (users: Array<string>, photo: IUploadingFile, name: string) => void;
+  createChat: (users: Array<string>, photo: IUploadingFile | undefined, name: string) => void;
   createPersonal: (users: Array<string>) => void;
   readMessages: (id: string, messages: IMessage[]) => void;
   startWriting: (id: string) => void;
@@ -19,8 +19,6 @@ type SocketContextoObj = {
 const SocketContext = createContext<SocketContextoObj>({} as SocketContextoObj);
 
 export const SocketContextProvider: React.FC = (props) => {
-  // const [messages, setMessages] = useState([]);
-  // const [chats, setChats] = useState([]);
   const user = useContext(UserContext);
   const chat = useContext(ChatContext);
   const ui = useContext(UIContext);
@@ -159,15 +157,7 @@ export const SocketContextProvider: React.FC = (props) => {
     };
   }, [socket, user, chat]);
 
-  // const addMessages = (messages) => {
-  //   setMessages(messages);
-  // };
-
-  // const addChats = (chats) => {
-  //   setChats(chats);
-  // };
-
-  const sendMessage = (id: string, message: string, file: IUploadingFile) => {
+  const sendMessage = (id: string, message: string, file: IUploadingFile | undefined) => {
     console.log("socket: ", { room: id, message, file });
     socket.emit("server-send-message", { room: id, message, file });
   };
@@ -180,7 +170,7 @@ export const SocketContextProvider: React.FC = (props) => {
     socket.emit("server-delete-message", { id });
   };
 
-  const createChat = (users: Array<string>, photo: IUploadingFile, name: string) => {
+  const createChat = (users: Array<string>, photo: IUploadingFile | undefined, name: string) => {
     console.log("create", { users, photo, name });
     socket.emit("server-create-room", { users, photo, name });
   };
@@ -205,10 +195,6 @@ export const SocketContextProvider: React.FC = (props) => {
   return (
     <SocketContext.Provider
       value={{
-        // messages,
-        // chats,
-        // addMessages,
-        // addChats,
         sendMessage,
         updateMessage,
         deleteMessage,

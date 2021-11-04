@@ -1,6 +1,10 @@
 import styles from "./OpenFile.module.scss";
 
-const OpenFile = (props) => {
+const OpenFile: React.FC<{
+  accept?: string;
+  id: string;
+  onChange: React.ChangeEventHandler;
+}> = (props) => {
   return (
     <div className={styles.container}>
       <input

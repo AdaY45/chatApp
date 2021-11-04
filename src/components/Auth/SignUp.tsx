@@ -4,21 +4,20 @@ import Button from "../UI/Button/Button";
 import { Fragment } from "react";
 import useInput from "../../hooks/use-input";
 import  UserContext from "../../context/user-context";
-import UIContext from "../../context/ui-context";
 import styles from "./SignUp.module.scss";
 import Loader from "../UI/Loader/Loader";
 
-const SignUp = () => {
-  const [isLoading, setIsLoading] = useState(false);
+const SignUp: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const user = useContext(UserContext);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string>("");
   const {
     value: firstName,
     isValid: firstNameIsValid,
     hasErrors: firstNameHasErrors,
     valueChangeHandler: firstNameChangeHandler,
     inputBlurHandler: firstNameBlurHandler,
-  } = useInput((value) => value.trim() !== "");
+  } = useInput((value: string) => value.trim() !== "");
 
   const {
     value: lastName,
@@ -26,7 +25,7 @@ const SignUp = () => {
     hasErrors: lastNameHasErrors,
     valueChangeHandler: lastNameChangeHandler,
     inputBlurHandler: lastNameBlurHandler,
-  } = useInput((value) => value.trim() !== "");
+  } = useInput((value: string) => value.trim() !== "");
 
   const {
     value: email,
@@ -34,7 +33,7 @@ const SignUp = () => {
     hasErrors: emailHasErrors,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
-  } = useInput((value) => /\S+@\S+\.\S+/.test(value));
+  } = useInput((value: string) => /\S+@\S+\.\S+/.test(value));
 
   const {
     value: password,
@@ -42,11 +41,11 @@ const SignUp = () => {
     hasErrors: passwordHasErrors,
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
-  } = useInput((value) =>
+  } = useInput((value: string) =>
     /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/.test(value)
   );
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (
@@ -59,7 +58,7 @@ const SignUp = () => {
     }
 
     setIsLoading(true);
-    user.setUser({email, firstName, lastName, password});
+    user.setUser({id: "", firstName, lastName, email, photo: ""});
     user.register(email, setError);
     setIsLoading(false);
   };
@@ -80,7 +79,6 @@ const SignUp = () => {
           <p className="error">First Name should not be empty</p>
         )}
         <Input
-          label="FirstName"
           input={{ id: "firstName", type: "text", placeholder: "First name" }}
           className={firstNameInputStyles}
           onChange={firstNameChangeHandler}
@@ -92,7 +90,6 @@ const SignUp = () => {
           <p className="error">Last Name should not be empty</p>
         )}
         <Input
-          label="lastName"
           input={{ id: "lastName", type: "text", placeholder: "Last Name" }}
           className={lastNameInputStyles}
           onChange={lastNameChangeHandler}
@@ -101,7 +98,6 @@ const SignUp = () => {
         />
         {emailHasErrors && <p className="error">Email is not valid</p>}
         <Input
-          label="Email"
           input={{ id: "email", type: "text", placeholder: "E-mail" }}
           className={emailInputStyles}
           onChange={emailChangeHandler}
@@ -115,7 +111,6 @@ const SignUp = () => {
           </p>
         )}
         <Input
-          label="Password"
           input={{ id: "password", type: "password", placeholder: "Password" }}
           className={passwordInputStyles}
           onChange={passwordChangeHandler}
@@ -123,7 +118,7 @@ const SignUp = () => {
           data-testid="password"
         />
 
-        <Button data-testid="signup">Sign up</Button>
+        <Button>Sign up</Button>
 
       </form>
     </Fragment>

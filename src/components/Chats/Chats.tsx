@@ -10,16 +10,14 @@ import ChatContext from "../../context/chat-context";
 import useWindowDimensions from "../../hooks/use-dimensions";
 import Loader from "../UI/Loader/Loader";
 
-const Chats = () => {
-  const [isClicked, setIsClicked] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+const Chats: React.FC = () => {
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
   const ui = useContext(UIContext);
   const user = useContext(UserContext);
   const chats = useContext(ChatContext); 
   const windowDimensions = useWindowDimensions();
-
-//console.log("open chats", ui.setIsOpenChats)
 
   useEffect(() => {
     const getChats = async () => {
@@ -33,8 +31,6 @@ const Chats = () => {
 
     getChats();
   }, [ui.loadChats]);
-
-  console.log("chats", chats.chats);
 
   return (
     <section className={styles.chats}>

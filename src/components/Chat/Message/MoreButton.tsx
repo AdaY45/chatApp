@@ -4,13 +4,18 @@ import UIContext from "../../../context/ui-context";
 import UserContext from "../../../context/user-context";
 import SocketContext from "../../../context/socket-context";
 import styles from "./MoreButton.module.scss";
+import { IMessage } from "../../../interfaces/chat";
 
-const MoreButton = (props) => {
-  const ref = useRef();
+const MoreButton: React.FC<{
+  onSetMessage: React.Dispatch<React.SetStateAction<string>>;
+  message: IMessage,
+  userStyle: boolean
+}> = (props) => {
+  const ref = useRef() as React.MutableRefObject<HTMLDivElement>;
   const ui = useContext(UIContext);
   const user = useContext(UserContext);
- 
-  const [isMoreOpen, setIsMoreOpen] = useState(false);
+
+  const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
   const socket = useContext(SocketContext);
 
   const onEditClickHandler = () => {
@@ -26,8 +31,8 @@ const MoreButton = (props) => {
   };
 
   useEffect(() => {
-    const checkIfClickedOutside = (e) => {
-      if (isMoreOpen && ref.current && !ref.current.contains(e.target)) {
+    const checkIfClickedOutside = (e: MouseEvent) => {
+      if (isMoreOpen && ref.current && !ref.current.contains(e.target as Node)) {
         setIsMoreOpen(false);
       }
     };

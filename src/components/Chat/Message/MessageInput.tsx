@@ -5,17 +5,21 @@ import PlusIcon from "../../UI/Icons/Messages/PlusIcon";
 import SmileIcon from "../../UI/Icons/Messages/SmileIcon";
 import SendIcon from "../../UI/Icons/Messages/SendIcon";
 import OpenFile from "../../UI/Button/OpenFile";
-import Picker from "emoji-picker-react";
+import Picker, { IEmojiData } from "emoji-picker-react";
 import UserContext from "../../../context/user-context";
 import UIContext from "../../../context/ui-context";
 import SocketContext from "../../../context/socket-context";
 import styles from "./MessageInput.module.scss";
 import FileIcon from "../../UI/Icons/Messages/FileIcon";
+import { IUploadingFile } from "../../../interfaces/chat";
 
-const MessageInput = (props) => {
-  const [showNav, setShowNav] = useState(false);
-  const [isOpenEmoji, setIsOpenEmoji] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
+const MessageInput: React.FC<{
+  message: string;
+  onSetMessage: React.Dispatch<React.SetStateAction<string>>;
+}> = (props) => {
+  const [showNav, setShowNav] = useState<boolean>(false);
+  const [isOpenEmoji, setIsOpenEmoji] = useState<boolean>(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const user = useContext(UserContext);
   const ui = useContext(UIContext);
   const socket = useContext(SocketContext);
@@ -24,39 +28,43 @@ const MessageInput = (props) => {
     setSelectedFile(null);
   }, [user.chat.id]);
 
-  const onEmojiClick = (event, emojiObject) => {
+  const onEmojiClick = (
+    event: React.MouseEvent<Element, MouseEvent>,
+    emojiObject: IEmojiData
+  ) => {
     ui.setIsEmojji(true);
     props.onSetMessage((previousState) =>
       previousState.concat(emojiObject.emoji)
     );
   };
 
-  const plusHandler = (event) => {
+  const plusHandler = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
     setShowNav(!showNav);
   };
 
-  const onEmojiOpenClick = (event) => {
+  const onEmojiOpenClick = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
     setIsOpenEmoji(!isOpenEmoji);
   };
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     props.onSetMessage(event.target.value);
   };
 
-  const onChangeFile = (e) => {
+  const onChangeFile: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (!e.target.files) return;
     setSelectedFile(e.target.files[0]);
     setShowNav(false);
   };
 
-  const submitHandler = async (event) => {
+  const submitHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsOpenEmoji(false);
 
-    const file = selectedFile
+    const file: IUploadingFile | undefined = selectedFile
       ? {
           originalName: selectedFile.name,
           size: selectedFile.size,

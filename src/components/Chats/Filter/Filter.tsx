@@ -1,7 +1,7 @@
 import DownIcon from "../../UI/Icons/Chats/DownIcon";
 import styles from "./Filter.module.scss";
 
-const Filter = (props) => {
+const Filter: React.FC = (props) => {
   return (
     <div className={styles.filter}>
       <div className={styles["filter-text"]}>{props.children}</div>

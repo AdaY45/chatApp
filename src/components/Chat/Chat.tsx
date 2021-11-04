@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import { msToDate } from "../util/helpers"
+import { msToDate } from "../util/helpers";
 import AttachIcon from "../UI/Icons/Messages/AttachIcon";
 import MoreIcon from "../UI/Icons/Messages/MoreIcon";
 import styles from "./Chat.module.scss";
@@ -11,11 +11,11 @@ import UIContext from "../../context/ui-context";
 import useWindowDimensions from "../../hooks/use-dimensions";
 import SocketContext from "../../context/socket-context";
 
-const Chat = () => {
-  const [isReady, setIsReady] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [amount, setAmount] = useState(10);
+const Chat: React.FC = () => {
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [amount, setAmount] = useState<number>(10);
   const user = useContext(UserContext);
   const chat = useContext(ChatContext);
   const ui = useContext(UIContext);
@@ -70,7 +70,13 @@ const Chat = () => {
           />
           <div className={styles["profile-info"]}>
             <div className="name">{user.chat.name}</div>
-            <div className="online">{user.chat.status === "...writing" ? user.chat.status : user.chat.exitDate ? msToDate(user.chat.exitDate) : ""}</div>
+            <div className="online">
+              {user.chat.status === "...writing"
+                ? user.chat.status
+                : typeof user.chat.exitDate === 'number'
+                ? msToDate(user.chat.exitDate)
+                : ""}
+            </div>
           </div>
         </div>
         <div className={styles.nav}>

@@ -3,20 +3,17 @@ import Message from "./Message";
 import ChatContext from "../../../context/chat-context";
 import styles from "./MessageBlock.module.scss";
 
-const MessageBlock = (props) => {
+const MessageBlock: React.FC<{
+  onSetMessage: React.Dispatch<React.SetStateAction<string>>;
+}> = (props) => {
   const chat = useContext(ChatContext);
 
-  const handleScroll = (e) => {
-    // console.log("e.target.scrollHeight + e.target.scrollTop", Math.ceil(e.target.scrollHeight + e.target.scrollTop))
-    // console.log("e.target.clientHeight", e.target.clientHeight)
-    const bottom =
-      Math.ceil(e.target.scrollHeight + e.target.scrollTop) < 552;
+  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
+    const bottom: boolean = Math.ceil((e.target as HTMLElement).scrollHeight + (e.target as HTMLElement).scrollTop) < 552;
     if (bottom) {
       chat.reduceCountMessages();
     }
   };
-
-  console.log("messages", chat.messages);
 
   return (
     <div className={styles["message-block"]}>

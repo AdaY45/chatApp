@@ -9,8 +9,8 @@ import UIContext from "../../../context/ui-context";
 import useWindowDimensions from "../../../hooks/use-dimensions";
 import styles from "./Navigation.module.scss";
 
-const Navigation = () => {
-  const [isActive, setIsActive] = useState(false);
+const Navigation: React.FC = () => {
+  const [isActive, setIsActive] = useState<boolean>(false);
   const ui = useContext(UIContext);
   const dimensions = useWindowDimensions();
 

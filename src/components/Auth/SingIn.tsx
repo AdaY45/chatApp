@@ -7,10 +7,10 @@ import UserContext from "../../context/user-context";
 import styles from "./SignIn.module.scss";
 import Loader from "../UI/Loader/Loader";
 
-const SignIn = () => {
+const SignIn: React.FC = () => {
   const user = useContext(UserContext);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
   const {
     value: email,
@@ -18,7 +18,7 @@ const SignIn = () => {
     hasErrors: emailHasErrors,
     valueChangeHandler: emailChangeHandler,
     inputBlurHandler: emailBlurHandler,
-  } = useInput((value) => /\S+@\S+\.\S+/.test(value));
+  } = useInput((value: string) => /\S+@\S+\.\S+/.test(value));
 
   const {
     value: password,
@@ -26,11 +26,11 @@ const SignIn = () => {
     hasErrors: passwordHasErrors,
     valueChangeHandler: passwordChangeHandler,
     inputBlurHandler: passwordBlurHandler,
-  } = useInput((value) =>
+  } = useInput((value: string) =>
     /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/.test(value)
   );
 
-  const onSubmit = async (event) => {
+  const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     if (!emailIsValid && !passwordIsValid) {
@@ -42,9 +42,9 @@ const SignIn = () => {
     setIsLoading(false);
   };
 
-  const emailInputStyles = emailHasErrors ? "invalid" : "";
+  const emailInputStyles: string = emailHasErrors ? "invalid" : "";
 
-  const passwordInputStyles = passwordHasErrors ? "invalid" : "";
+  const passwordInputStyles: string = passwordHasErrors ? "invalid" : "";
 
   return (
     <Fragment>
@@ -73,7 +73,7 @@ const SignIn = () => {
           data-testid="password"
         />
 
-        <Button data-testid="signin">Sign In</Button>
+        <Button>Sign In</Button>
       </form>
     </Fragment>
   );

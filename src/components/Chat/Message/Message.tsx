@@ -3,16 +3,39 @@ import CheckedIcon from "../../UI/Icons/Messages/CheckedIcon";
 import styles from "./Message.module.scss";
 import FileIcon from "../../UI/Icons/Messages/FileIcon";
 import MoreButton from "./MoreButton";
+import { IMessage } from "../../../interfaces/chat";
 
-const Message = (props) => {
+const Message: React.FC<{
+  message: IMessage;
+  onSetMessage: React.Dispatch<React.SetStateAction<string>>;
+}> = (props) => {
   const { message } = props;
-  const userStyle = message.type === "user";
-  const fileName = message.file && message.file.name.split("$")[1];
-  const formats = ["jpeg", "png", "jpg", "JPEG", "JPG", "PNG"];
-  const isImage =
-    message.file &&
-    formats.filter((el) => el === fileName.split(".")[1]).length > 0;
-  //console.log("file name", fileName);
+  const userStyle: boolean = message.type === "user";
+  const fileName: string | null = checkFileName();
+  const formats: Array<string> = ["jpeg", "png", "jpg", "JPEG", "JPG", "PNG"];
+  const isImage = checkIsImage();
+
+  function checkIsImage() {
+    if (message.file && fileName) {
+      return formats.filter((el) => el === fileName.split(".")[1]).length > 0;
+    }
+    return false;
+  }
+
+  function checkFileName() {
+    if (message.file) {
+      return message.file.name.split("$")[1];
+    }
+    return null;
+  }
+
+  const checkIfFile = () => {
+    if (message.file) {
+      return "http://localhost:3000/files/" + message.file.name;
+    }
+    return "";
+  };
+
   return (
     <div className={styles.container}>
       <div className={`${styles.message} ${userStyle ? styles.owner : ""}`}>
@@ -38,7 +61,7 @@ const Message = (props) => {
           <div className={styles.text}>{message.text}</div>
           {isImage && (
             <img
-              src={"http://localhost:3000/files/" + message.file.name}
+              src={checkIfFile()}
               alt="MessagePhoto"
               className={styles.photo}
             />
@@ -73,7 +96,7 @@ const Message = (props) => {
         </div>
         <MoreButton
           userStyle={userStyle}
-          message={props.message}
+          message={message}
           onSetMessage={props.onSetMessage}
         />
       </div>
